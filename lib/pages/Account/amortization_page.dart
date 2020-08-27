@@ -20,6 +20,8 @@ class AmortizationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
+    double medidaReferenciaAncho = MediaQuery.of(context).size.width;
     List<AmortizationModel> providerList =
         Provider.of<CreditSimulatorService>(context).getLista;
     return Scaffold(
@@ -30,26 +32,30 @@ class AmortizationPage extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'berlin',
                 color: Colors.white,
-                fontSize: letraBarTamanno(context),
+                fontSize: letraBarTamanno(medidaReferenciaAlto),
               )),
           leading: IconButton(
             icon: Icon(
-              Platform.isAndroid?Icons.arrow_back:Icons.arrow_back_ios,
+              Platform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
               color: Colors.white,
-              size: tamannoIcono(context),
+              size: tamannoIcono(medidaReferenciaAlto),
             ),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ),
         body: tipo == 0
-            ? listViewContent(context, providerList, tipo)
+            ? listViewContent(
+                medidaReferenciaAlto, medidaReferenciaAncho, providerList, tipo)
             : FutureBuilder<AmortizationList>(
                 future:
                     AmortizationService.amortizationQuery(context, nrocredito),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return listViewContent(
-                        context, snapshot.data.amortizationList, 1);
+                        medidaReferenciaAlto,
+                        medidaReferenciaAncho,
+                        snapshot.data.amortizationList,
+                        1);
                     /*
                     return ListView.builder(
                       primary: true,
@@ -61,10 +67,10 @@ class AmortizationPage extends StatelessWidget {
                       },
                     );*/
                   } else if (snapshot.hasError) {
-                    return iconMsgBack(
-                        context, Icons.error, 'Ha ocurrido un error', 1);
+                    return iconMsgBack(medidaReferenciaAlto, Icons.error,
+                        'Ha ocurrido un error', 1);
                   }
-                  return Center(child: iconCargando(context));
+                  return Center(child: iconCargando(medidaReferenciaAlto));
                 }));
   }
 }

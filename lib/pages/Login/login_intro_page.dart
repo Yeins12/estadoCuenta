@@ -33,6 +33,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
 
   @override
   Widget build(BuildContext context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
     final color = Colors.white;
     _scale = 1 - _controller.value;
     return Scaffold(
@@ -43,7 +44,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               AvatarGlow(
-                endRadius: radiusExt(context),
+                endRadius: radiusExt(medidaReferenciaAlto),
                 duration: Duration(seconds: 2),
                 glowColor: Colors.white24,
                 repeat: true,
@@ -55,7 +56,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
                   child: CircleAvatar(
                     backgroundColor: primaryColor,
                     backgroundImage: AssetImage('assets/img/logocta1.png'),
-                    radius: radius(context),
+                    radius: radius(medidaReferenciaAlto),
                   ),
                 ),
               ),
@@ -64,19 +65,20 @@ class _LoginIntroPageState extends State<LoginIntroPage>
                   'Bienvenido a',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: letraBarTamanno(context) + 10,
+                      fontSize: letraBarTamanno(medidaReferenciaAlto) + 10,
                       color: color),
                 ),
                 delay: delayedAmount + 1000,
               ),
               SizedBox(
-                height: topLoginIntro(context),
+                height: topLoginIntro(medidaReferenciaAlto),
               ),
               DelayedAnimation(
                 child: Text(
                   "Tu Estado de Cuenta",
                   style: TextStyle(
-                      fontSize: letraBarTamanno(context) + 5, color: color),
+                      fontSize: letraBarTamanno(medidaReferenciaAlto) + 5,
+                      color: color),
                 ),
                 delay: delayedAmount + 1500,
               ),
@@ -84,12 +86,13 @@ class _LoginIntroPageState extends State<LoginIntroPage>
                 child: Text(
                   "Virtual",
                   style: TextStyle(
-                      fontSize: letraBarTamanno(context) + 5, color: color),
+                      fontSize: letraBarTamanno(medidaReferenciaAlto) + 5,
+                      color: color),
                 ),
                 delay: delayedAmount + 2000,
               ),
               SizedBox(
-                height: sizedBox(context),
+                height: sizedBox(medidaReferenciaAlto) + 20,
               ),
               DelayedAnimation(
                 child: GestureDetector(
@@ -103,7 +106,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
                 delay: delayedAmount + 2500,
               ),
               SizedBox(
-                height: topLoginIntro(context),
+                height: topLoginIntro(medidaReferenciaAlto),
               ),
               Align(
                 alignment: FractionalOffset.bottomCenter,
@@ -113,7 +116,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
                     child: Text(
                       "Visita nuestra página web",
                       style: TextStyle(
-                          fontSize: letraTextoTamanno(context) + 2,
+                          fontSize: letraTextoTamanno(medidaReferenciaAlto) + 2,
                           color: color),
                     ),
                   ),
@@ -149,7 +152,8 @@ class _LoginIntroPageState extends State<LoginIntroPage>
             child: Text(
               'Iniciar Sesión',
               style: TextStyle(
-                fontSize: letraBarTamanno(context) + 2,
+                fontSize:
+                    letraBarTamanno(MediaQuery.of(context).size.height) + 2,
                 fontWeight: FontWeight.bold,
                 color: primaryColor,
               ),

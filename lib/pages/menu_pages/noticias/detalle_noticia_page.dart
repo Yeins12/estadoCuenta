@@ -8,10 +8,10 @@ class DetalleNoticiaPage extends StatelessWidget {
   final NoticiaModel noticia;
   const DetalleNoticiaPage({Key key, @required this.noticia}) : super(key: key);
 
-  Widget _content(context) {
+  Widget _content(medidaReferenciaAlto, context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(paddingAll(context)),
+        padding: EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
         child: Column(
           children: [
             Center(
@@ -20,7 +20,7 @@ class DetalleNoticiaPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'berlin',
-                    fontSize: letraBarTamanno(context),
+                    fontSize: letraBarTamanno(medidaReferenciaAlto),
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -35,17 +35,18 @@ class DetalleNoticiaPage extends StatelessWidget {
                   color: primaryColor,
                 ),
                 SizedBox(
-                  width: sizedBox(context),
+                  width: sizedBox(medidaReferenciaAlto),
                 ),
                 Text(
                   'Publicado: ${noticia.fecha}',
                   style: TextStyle(
-                      color: Colors.grey, fontSize: letraTextoTamanno(context)),
+                      color: Colors.grey,
+                      fontSize: letraTextoTamanno(medidaReferenciaAlto)),
                 ),
               ],
             ),
             Container(
-              margin: EdgeInsets.all(paddingAll(context)),
+              margin: EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.2,
               child: CachedNetworkImage(
@@ -61,7 +62,8 @@ class DetalleNoticiaPage extends StatelessWidget {
             Text(
               noticia.contenido,
               textAlign: TextAlign.justify,
-              style: TextStyle(fontSize: letraTextoTamanno(context)),
+              style:
+                  TextStyle(fontSize: letraTextoTamanno(medidaReferenciaAlto)),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -70,7 +72,8 @@ class DetalleNoticiaPage extends StatelessWidget {
             Text(
               noticia.cita,
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: letraTextoTamanno(context)),
+              style:
+                  TextStyle(fontSize: letraTextoTamanno(medidaReferenciaAlto)),
             )
           ],
         ),
@@ -80,6 +83,7 @@ class DetalleNoticiaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -87,18 +91,18 @@ class DetalleNoticiaPage extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'berlin',
               color: Colors.white,
-              fontSize: letraBarTamanno(context),
+              fontSize: letraBarTamanno(medidaReferenciaAlto),
             )),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
             color: Colors.white,
-            size: tamannoIcono(context),
+            size: tamannoIcono(medidaReferenciaAlto),
           ),
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ),
-      body: _content(context),
+      body: _content(medidaReferenciaAlto, context),
     );
   }
 }

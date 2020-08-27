@@ -23,8 +23,8 @@ toastShow(context, texto) {
       backgroundColor: primaryColor);
 }
 
-mostrarDialogoWidget(
-    int tipo, context, String titulo, String pregunta, accion) {
+mostrarDialogoWidget(int tipo, context, String titulo, String pregunta, accion,
+    medidaReferenciaAlto) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -35,7 +35,8 @@ mostrarDialogoWidget(
             children: <Widget>[
               Text(
                 pregunta,
-                style: TextStyle(fontSize: letraTextoTamanno(context)),
+                style: TextStyle(
+                    fontSize: letraTextoTamanno(medidaReferenciaAlto)),
               ),
             ],
           ),
@@ -63,7 +64,7 @@ mostrarDialogoWidget(
   );
 }
 
-mostrarDialogoCerrar(BuildContext context) {
+mostrarDialogoCerrar(BuildContext context, medidaReferenciaAlto) {
   showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -73,7 +74,8 @@ mostrarDialogoCerrar(BuildContext context) {
           child: ListBody(
             children: <Widget>[
               Text('¿Desea cerrar sesión?',
-                  style: TextStyle(fontSize: letraTextoTamanno(context))),
+                  style: TextStyle(
+                      fontSize: letraTextoTamanno(medidaReferenciaAlto))),
             ],
           ),
         ),

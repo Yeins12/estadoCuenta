@@ -21,6 +21,7 @@ class LoginService with ChangeNotifier {
   }
 
   Future authenticate(String idusr, String clave, context) async {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
     IndicadorProgreso.show(context);
     String ruta = 'http://conres.com.co/wsestadocuenta/login.php';
     try {
@@ -41,26 +42,36 @@ class LoginService with ChangeNotifier {
           IndicadorProgreso.hide();
         } else if (valor == 0) {
           IndicadorProgreso.hide();
-          mostrarDialogoWidget(
-              0, context, 'Aviso!', 'Credenciales invalidas', 1);
+          mostrarDialogoWidget(0, context, 'Aviso!', 'Credenciales invalidas',
+              1, medidaReferenciaAlto);
         } else if (valor == 2) {
           IndicadorProgreso.hide();
-          mostrarDialogoWidget(0, context, 'Aviso!',
-              'Error inesperado, inténtelo  nuevamente', 1);
+          mostrarDialogoWidget(
+              0,
+              context,
+              'Aviso!',
+              'Error inesperado, inténtelo  nuevamente',
+              1,
+              medidaReferenciaAlto);
         } else {
           IndicadorProgreso.hide();
-          mostrarDialogoWidget(0, context, 'Aviso!',
-              'Error inesperado, inténtelo  nuevamente', 1);
+          mostrarDialogoWidget(
+              0,
+              context,
+              'Aviso!',
+              'Error inesperado, inténtelo  nuevamente',
+              1,
+              medidaReferenciaAlto);
         }
       } else {
         IndicadorProgreso.hide();
-        mostrarDialogoWidget(
-            0, context, 'Aviso!', 'Error inesperado, inténtelo  nuevamente', 1);
+        mostrarDialogoWidget(0, context, 'Aviso!',
+            'Error inesperado, inténtelo  nuevamente', 1, medidaReferenciaAlto);
       }
     } catch (e) {
       IndicadorProgreso.hide();
-      mostrarDialogoWidget(
-          0, context, 'Aviso!', 'Error inesperado, inténtelo  nuevamente', 1);
+      mostrarDialogoWidget(0, context, 'Aviso!',
+          'Error inesperado, inténtelo  nuevamente', 1, medidaReferenciaAlto);
     }
   }
 

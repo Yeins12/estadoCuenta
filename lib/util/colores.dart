@@ -10,7 +10,7 @@ int mediana = 480;
 //hdpi
 int larga = 600;
 //xhdpi
-int xlarga = 719;
+int xlarga = 719; //revisar para menor a 630
 //xxhdpi
 int xxlarga = 839;
 //xxxhdpi
@@ -21,9 +21,6 @@ int xxxxxxlarga = 1439;
 int xxxxxxxlarga = 1599;
 int xxxxxxxxlarga = 1919;
 
-var medidaReferenciaAlto;
-var medidaReferenciaAncho;
-
 Color circuloColor = FlutterColor("#032f55");
 Color primaryColor = FlutterColor("#23b674");
 Color colorVerdeClaro = FlutterColor("#63e6ab");
@@ -32,40 +29,75 @@ Color colorVerdeLogin = FlutterColor("#1bb25b");
 Color colorCajaTexto = FlutterColor("#96e098");
 Color iconoVerde = FlutterColor("#12470e");
 //top
-tileSize(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
-  print(MediaQuery.of(context).size.width);
+radioMenu(medidaReferenciaAlto, medidaReferenciaAncho) {
   double medida = medidaReferenciaAlto <= xpequenna
-      ? letraBarTamanno(context) + 10
+      ? 5
       : medidaReferenciaAlto < pequenna
-          ? letraBarTamanno(context) + 11
+          ? 10
           : //probado
           medidaReferenciaAlto < mediana
-              ? letraBarTamanno(context) + 14
+              ? 30
               : //---probado 592
               medidaReferenciaAlto <= larga
-                  ? letraBarTamanno(context) + 18
+                  ? 30
                   : //probado
                   medidaReferenciaAlto <= xlarga
-                      ? letraBarTamanno(context) + 20
+                      ? 50
                       : //probado
                       medidaReferenciaAlto <= xxlarga
-                          ? letraBarTamanno(context) + 22
+                          ? 50
                           : medidaReferenciaAlto <= xxxlarga
-                              ? medidaReferenciaAncho <=pequenna? letraBarTamanno(context) + 15: letraBarTamanno(context) + 24
+                              ? medidaReferenciaAncho <= pequenna ? 50 : 50
                               : //probado
                               medidaReferenciaAlto <= xxxxlarga
-                                  ? letraBarTamanno(context) + 26
+                                  ? 50
                                   : medidaReferenciaAlto <= xxxxxlarga
-                                      ? letraBarTamanno(context) + 32
+                                      ? 50
                                       : medidaReferenciaAlto <= xxxxxxlarga
-                                          ? letraBarTamanno(context) + 36
-                                          : letraBarTamanno(context) + 18;
+                                          ? 50
+                                          : 50;
+
   return medida;
 }
 
-menuSize(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+tileSize(medidaReferenciaAlto, medidaReferenciaAncho) {
+  double medida = medidaReferenciaAlto <= xpequenna
+      ? letraBarTamanno(medidaReferenciaAlto) + 10
+      : medidaReferenciaAlto < pequenna
+          ? letraBarTamanno(medidaReferenciaAlto) + 11
+          : //probado
+          medidaReferenciaAlto < mediana
+              ? letraBarTamanno(medidaReferenciaAlto) + 14
+              : //---probado 592
+              medidaReferenciaAlto <= larga
+                  ? letraBarTamanno(medidaReferenciaAlto) + 18
+                  : //probado
+                  medidaReferenciaAlto <= xlarga
+                      ? letraBarTamanno(medidaReferenciaAlto) + 20
+                      : //probado
+                      medidaReferenciaAlto <= xxlarga
+                          ? letraBarTamanno(medidaReferenciaAlto) + 22
+                          : medidaReferenciaAlto <= xxxlarga
+                              ? medidaReferenciaAncho <= pequenna
+                                  ? letraBarTamanno(medidaReferenciaAlto) + 15
+                                  : letraBarTamanno(medidaReferenciaAlto) + 24
+                              : //probado
+                              medidaReferenciaAlto <= xxxxlarga
+                                  ? letraBarTamanno(medidaReferenciaAlto) + 26
+                                  : medidaReferenciaAlto <= xxxxxlarga
+                                      ? letraBarTamanno(medidaReferenciaAlto) +
+                                          32
+                                      : medidaReferenciaAlto <= xxxxxxlarga
+                                          ? letraBarTamanno(
+                                                  medidaReferenciaAlto) +
+                                              36
+                                          : letraBarTamanno(
+                                                  medidaReferenciaAlto) +
+                                              18;
+  return medida;
+}
+
+menuSize(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto <= xpequenna
       ? 180
       : medidaReferenciaAlto < pequenna
@@ -95,8 +127,7 @@ menuSize(context) {
   return medida;
 }
 
-creditSize(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+creditSize(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto <= xpequenna
       ? medidaReferenciaAlto * 0.8
       : medidaReferenciaAlto < pequenna
@@ -126,39 +157,38 @@ creditSize(context) {
   return medida;
 }
 
-paddingTop(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+paddingTop(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto <= xpequenna
-      ? paddingAll(context) * 6
+      ? paddingAll(medidaReferenciaAlto) * 6
       : medidaReferenciaAlto < pequenna
-          ? paddingAll(context) * 6
+          ? paddingAll(medidaReferenciaAlto) * 6
           : //probado
           medidaReferenciaAlto < mediana
-              ? paddingAll(context) * 7
+              ? paddingAll(medidaReferenciaAlto) * 7
               : //---probado 592
               medidaReferenciaAlto <= larga
-                  ? paddingAll(context) * 8
+                  ? paddingAll(medidaReferenciaAlto) * 8
                   : //probado
                   medidaReferenciaAlto <= xlarga
-                      ? paddingAll(context) * 9
+                      ? paddingAll(medidaReferenciaAlto) * 9
                       : //probado
                       medidaReferenciaAlto <= xxlarga
-                          ?  paddingAll(context) * 9
+                          ? paddingAll(medidaReferenciaAlto) * 9
                           : medidaReferenciaAlto <= xxxlarga
-                              ?  paddingAll(context) * 9
+                              ? paddingAll(medidaReferenciaAlto) * 9
                               : //probado
                               medidaReferenciaAlto <= xxxxlarga
-                                  ?  paddingAll(context) * 9
+                                  ? paddingAll(medidaReferenciaAlto) * 9
                                   : medidaReferenciaAlto <= xxxxxlarga
-                                      ?  paddingAll(context) * 9
+                                      ? paddingAll(medidaReferenciaAlto) * 9
                                       : medidaReferenciaAlto <= xxxxxxlarga
-                                          ?  paddingAll(context) * 9
-                                          :  paddingAll(context) * 8;
+                                          ? paddingAll(medidaReferenciaAlto) * 9
+                                          : paddingAll(medidaReferenciaAlto) *
+                                              8;
   return medida;
 }
 
-radiusExt(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+radiusExt(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto <= xpequenna
       ? 30
       : medidaReferenciaAlto < pequenna
@@ -188,8 +218,7 @@ radiusExt(context) {
   return medida;
 }
 
-radius(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+radius(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto <= xpequenna
       ? 30
       : medidaReferenciaAlto < pequenna
@@ -219,127 +248,71 @@ radius(context) {
   return medida;
 }
 
-topLoginIntro(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+topLoginIntro(medidaReferenciaAlto) {
   print(medidaReferenciaAlto);
-  double medida = MediaQuery.of(context).orientation == Orientation.portrait
-      ? medidaReferenciaAlto <= xpequenna
-          ? medidaReferenciaAlto * 0.08
-          : medidaReferenciaAlto < pequenna
-              ? medidaReferenciaAlto * 0.09
-              : //probado
-              medidaReferenciaAlto < mediana
-                  ? medidaReferenciaAlto * 0.10
-                  : //---probado 592
-                  medidaReferenciaAlto <= larga
+  double medida = medidaReferenciaAlto <= xpequenna
+      ? medidaReferenciaAlto * 0.08
+      : medidaReferenciaAlto < pequenna
+          ? medidaReferenciaAlto * 0.09
+          : //probado
+          medidaReferenciaAlto < mediana
+              ? medidaReferenciaAlto * 0.10
+              : //---probado 592
+              medidaReferenciaAlto <= larga
+                  ? medidaReferenciaAlto * 0.12
+                  : //probado
+                  medidaReferenciaAlto <= xlarga
                       ? medidaReferenciaAlto * 0.12
                       : //probado
-                      medidaReferenciaAlto <= xlarga
-                          ? medidaReferenciaAlto * 0.13
-                          : //probado
-                          medidaReferenciaAlto <= xxlarga
+                      medidaReferenciaAlto <= xxlarga
+                          ? medidaReferenciaAlto * 0.14
+                          : medidaReferenciaAlto <= xxxlarga
                               ? medidaReferenciaAlto * 0.14
-                              : medidaReferenciaAlto <= xxxlarga
+                              : //probado
+                              medidaReferenciaAlto <= xxxxlarga
                                   ? medidaReferenciaAlto * 0.14
-                                  : //probado
-                                  medidaReferenciaAlto <= xxxxlarga
+                                  : medidaReferenciaAlto <= xxxxxlarga
                                       ? medidaReferenciaAlto * 0.14
-                                      : medidaReferenciaAlto <= xxxxxlarga
-                                          ? medidaReferenciaAlto * 0.14
-                                          : medidaReferenciaAlto <= xxxxxxlarga
-                                              ? medidaReferenciaAlto * 0.12
-                                              : 0.15
-      : medidaReferenciaAlto < xpequenna
-          ? medidaReferenciaAlto * 0.15
-          : //probado
-          medidaReferenciaAlto < pequenna
-              ? medidaReferenciaAlto * 0.15
-              : //probado
-              medidaReferenciaAlto < mediana
-                  ? medidaReferenciaAlto * 0.1
-                  : medidaReferenciaAlto <= larga
-                      ? medidaReferenciaAlto * 0.15
-                      : //establecido
-                      medidaReferenciaAlto <= xlarga
-                          ? medidaReferenciaAlto * 0.15
-                          : medidaReferenciaAlto <= xxlarga
-                              ? medidaReferenciaAlto * 0.15
-                              : medidaReferenciaAlto <= xxxlarga
-                                  ? medidaReferenciaAlto * 0.2
-                                  : medidaReferenciaAlto <= xxxxlarga
-                                      ? medidaReferenciaAlto * 0.2
-                                      : medidaReferenciaAlto <= xxxxxlarga
-                                          ? medidaReferenciaAlto * 0.2
-                                          : medidaReferenciaAlto <= xxxxxxlarga
-                                              ? medidaReferenciaAlto * 0.2
-                                              : 50;
+                                      : medidaReferenciaAlto <= xxxxxxlarga
+                                          ? medidaReferenciaAlto * 0.12
+                                          : 0.15;
   return medida;
 }
 
 //Icono Login
-iconLogin(context) {
-  medidaReferenciaAncho = MediaQuery.of(context).size.width;
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
-  double medida = MediaQuery.of(context).orientation == Orientation.portrait
-      ? medidaReferenciaAlto < xpequenna
-          ? medidaReferenciaAlto * 0.3
-          : medidaReferenciaAlto < pequenna
+iconLogin(medidaReferenciaAlto, medidaReferenciaAncho) {
+  double medida = medidaReferenciaAlto < xpequenna
+      ? medidaReferenciaAlto * 0.3
+      : medidaReferenciaAlto < pequenna
+          ? medidaReferenciaAlto * 0.33
+          : //probado
+          medidaReferenciaAlto < mediana
               ? medidaReferenciaAlto * 0.33
-              : //probado
-              medidaReferenciaAlto < mediana
+              : //--probadao
+              medidaReferenciaAlto <= larga
                   ? medidaReferenciaAlto * 0.33
-                  : //--probadao
-                  medidaReferenciaAlto <= larga
+                  : //probado
+                  medidaReferenciaAlto <= xlarga
                       ? medidaReferenciaAlto * 0.33
                       : //probado
-                      medidaReferenciaAlto <= xlarga
+                      medidaReferenciaAlto <= xxlarga
                           ? medidaReferenciaAlto * 0.33
-                          : //probado
-                          medidaReferenciaAlto <= xxlarga
+                          : medidaReferenciaAlto <= xxxlarga
                               ? medidaReferenciaAlto * 0.33
-                              : medidaReferenciaAlto <= xxxlarga
+                              : //probado
+                              medidaReferenciaAlto <= xxxxlarga
                                   ? medidaReferenciaAlto * 0.33
-                                  : //probado
-                                  medidaReferenciaAlto <= xxxxlarga
+                                  : medidaReferenciaAlto <= xxxxxlarga
                                       ? medidaReferenciaAlto * 0.33
-                                      : medidaReferenciaAlto <= xxxxxlarga
+                                      : medidaReferenciaAlto <= xxxxxxlarga
                                           ? medidaReferenciaAlto * 0.33
-                                          : medidaReferenciaAlto <= xxxxxxlarga
-                                              ? medidaReferenciaAlto * 0.33
-                                              : 50
-      : medidaReferenciaAlto < xpequenna
-          ? medidaReferenciaAlto * 0.45
-          : //probado
-          medidaReferenciaAlto < pequenna
-              ? medidaReferenciaAlto * 0.4
-              : //probado
-              medidaReferenciaAlto < mediana
-                  ? medidaReferenciaAlto * 0.4
-                  : medidaReferenciaAlto <= larga
-                      ? medidaReferenciaAlto * 0.45
-                      : //probado
-                      medidaReferenciaAlto <= xlarga
-                          ? medidaReferenciaAlto * 0.35
-                          : medidaReferenciaAlto <= xxlarga
-                              ? medidaReferenciaAlto * 0.4
-                              : medidaReferenciaAlto <= xxxlarga
-                                  ? medidaReferenciaAlto * 0.4
-                                  : medidaReferenciaAlto <= xxxxlarga
-                                      ? medidaReferenciaAlto * 0.4
-                                      : medidaReferenciaAlto <= xxxxxlarga
-                                          ? medidaReferenciaAlto * 0.4
-                                          : medidaReferenciaAlto <= xxxxxxlarga
-                                              ? medidaReferenciaAlto * 0.45
-                                              : 50;
+                                          : 50;
 
   //print(medida);
   return medida;
 }
 
-paddingAll(context) {
-  medidaReferenciaAncho = MediaQuery.of(context).size.width;
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
-
+paddingAll(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto < xpequenna
       ? 3
       : medidaReferenciaAlto < pequenna
@@ -369,136 +342,73 @@ paddingAll(context) {
   return medida;
 }
 
-letraTextoTamanno(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+letraTextoTamanno(medidaReferenciaAlto) {
   //print(medidaReferenciaAlto);
-  double medida = MediaQuery.of(context).orientation == Orientation.portrait
-      ? medidaReferenciaAlto < xpequenna
-          ? 13
+  double medida = medidaReferenciaAlto < xpequenna
+      ? 12
+      : //probado
+      medidaReferenciaAlto < pequenna
+          ? 12
           : //probado
-          medidaReferenciaAlto < pequenna
-              ? 13
-              : //probado
-              medidaReferenciaAlto < mediana
-                  ? 13
-                  : medidaReferenciaAlto < 540
+          medidaReferenciaAlto < mediana
+              ? 12
+              : medidaReferenciaAlto < 540
+                  ? 12
+                  : //probado
+                  medidaReferenciaAlto <= larga
                       ? 13
-                      : //probado
-                      medidaReferenciaAlto <= larga
+                      : //--
+                      medidaReferenciaAlto <= xlarga
                           ? 13
-                          : //--
-                          medidaReferenciaAlto <= xlarga
-                              ? 13
-                              : //Probado 640
-                              medidaReferenciaAlto <= xxlarga
-                                  ? 15
-                                  : medidaReferenciaAlto <= xxxlarga
-                                      ? 17
-                                      : //establecido
-                                      medidaReferenciaAlto <= xxxxlarga
-                                          ? 19
-                                          : medidaReferenciaAlto <= xxxxxlarga
-                                              ? 22
-                                              : medidaReferenciaAlto <=
-                                                      xxxxxxlarga
-                                                  ? 25
-                                                  : 20
-      : medidaReferenciaAlto < xpequenna
-          ? 13
-          : //probado
-          medidaReferenciaAlto < pequenna
-              ? 13
-              : //probado
-              medidaReferenciaAlto < mediana
-                  ? 13
-                  : medidaReferenciaAlto < 540
-                      ? 13
-                      : //probado
-                      medidaReferenciaAlto <= larga
-                          ? 17
-                          : //--
-                          medidaReferenciaAlto <= xlarga
-                              ? 17
-                              : //Probado
-                              medidaReferenciaAlto <= xxlarga
-                                  ? 19
-                                  : medidaReferenciaAlto <= xxxlarga
+                          : //Probado 640
+                          medidaReferenciaAlto <= xxlarga
+                              ? 15
+                              : medidaReferenciaAlto <= xxxlarga
+                                  ? 17
+                                  : //establecido
+                                  medidaReferenciaAlto <= xxxxlarga
                                       ? 19
-                                      : //establecido
-                                      medidaReferenciaAlto <= xxxxlarga
-                                          ? 20
-                                          : medidaReferenciaAlto <= xxxxxlarga
-                                              ? 21
-                                              : medidaReferenciaAlto <=
-                                                      xxxxxxlarga
-                                                  ? 22
-                                                  : 20;
-  /* MediaQuery.of(context).orientation==  Orientation.portrait?
-                medidaReferencia>=1000?30:medidaReferencia>=600?15:medidaReferencia>=400?15:13:
-                medidaReferencia>=1000?31:medidaReferencia>=600?18:medidaReferencia>=400?16:14;*/
+                                      : medidaReferenciaAlto <= xxxxxlarga
+                                          ? 22
+                                          : medidaReferenciaAlto <= xxxxxxlarga
+                                              ? 25
+                                              : 20;
 
   return medida;
 }
 
-tamannoIcono(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
-  
-  double medida = MediaQuery.of(context).orientation == Orientation.portrait
-      ? medidaReferenciaAlto < xpequenna
-          ? 19
-          : medidaReferenciaAlto < pequenna
-              ? 20
-              : //probado
-              medidaReferenciaAlto < mediana
-                  ? 20
-                  : medidaReferenciaAlto <= larga
-                      ? 20
-                      : medidaReferenciaAlto <= xlarga
-                          ? 20
-                          : //probado 640
-                          medidaReferenciaAlto <= xxlarga
-                              ? 22
-                              : medidaReferenciaAlto <= xxxlarga
-                                  ? 27
-                                  : //probadp 913
-                                  medidaReferenciaAlto <= xxxxlarga
-                                      ? 27
-                                      : medidaReferenciaAlto <= xxxxxlarga
-                                          ? 30
-                                          : medidaReferenciaAlto <= xxxxxxlarga
-                                              ? 27
-                                              : 27
-      : medidaReferenciaAlto < xpequenna
-          ? 18
+tamannoIcono(medidaReferenciaAlto) {
+  double medida = medidaReferenciaAlto < xpequenna
+      ? 19
+      : medidaReferenciaAlto < pequenna
+          ? 20
           : //probado
-          medidaReferenciaAlto < pequenna
+          medidaReferenciaAlto < mediana
               ? 20
-              : //probada
-              medidaReferenciaAlto < mediana
+              : medidaReferenciaAlto <= larga
                   ? 20
-                  : medidaReferenciaAlto <= larga
-                      ? 23
-                      : medidaReferenciaAlto <= xlarga
-                          ? 23
-                          : medidaReferenciaAlto <= xxlarga
-                              ? 23
-                              : medidaReferenciaAlto <= xxxlarga
-                                  ? 23
-                                  : medidaReferenciaAlto <= xxxxlarga
-                                      ? 23
-                                      : medidaReferenciaAlto <= xxxxxlarga
-                                          ? 23
-                                          : medidaReferenciaAlto <= xxxxxxlarga
-                                              ? 23
-                                              : 23;
+                  : medidaReferenciaAlto <= xlarga
+                      ? 20
+                      : //probado 640
+                      medidaReferenciaAlto <= xxlarga
+                          ? 22
+                          : medidaReferenciaAlto <= xxxlarga
+                              ? 27
+                              : //probadp 913
+                              medidaReferenciaAlto <= xxxxlarga
+                                  ? 27
+                                  : medidaReferenciaAlto <= xxxxxlarga
+                                      ? 30
+                                      : medidaReferenciaAlto <= xxxxxxlarga
+                                          ? 27
+                                          : 27;
   /*
                 medidaReferencia>=1000?30:medidaReferencia>=600?25:medidaReferencia>=400?20:18:
                 medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:13;*/
   return medida;
 }
 
-sizedBox(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+sizedBox(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto < xpequenna
       ? 5
       : //probado 320 hor
@@ -525,11 +435,11 @@ sizedBox(context) {
   /* MediaQuery.of(context).orientation==  Orientation.portrait? 
                 medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:10:
                 medidaReferencia>=1000?20:medidaReferencia>=600?15:medidaReferencia>=400?10:5;*/
- 
+
   return medida;
 }
 
-creditContent(context) {
+creditContent(medidaReferenciaAlto) {
   //medidaReferenciaAlto = MediaQuery.of(context).size.height;
 
   double medida = medidaReferenciaAlto < xpequenna
@@ -561,7 +471,7 @@ creditContent(context) {
   return medida;
 }
 
-topContent(context) {
+topContent(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto < xpequenna
       ? 5
       : //probado 320 hor
@@ -591,7 +501,7 @@ topContent(context) {
   return medida;
 }
 
-heightContent(context) {
+heightContent(medidaReferenciaAlto) {
   //medidaReferenciaAlto = MediaQuery.of(context).size.height;
 
   double medida = medidaReferenciaAlto < xpequenna
@@ -623,7 +533,7 @@ heightContent(context) {
   return medida;
 }
 
-heightCard(context) {
+heightCard(medidaReferenciaAlto) {
   //medidaReferenciaAlto = MediaQuery.of(context).size.height;
 
   double medida = medidaReferenciaAlto < xpequenna
@@ -655,8 +565,7 @@ heightCard(context) {
   return medida;
 }
 
-letraBarTamanno(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
+letraBarTamanno(medidaReferenciaAlto) {
   double medida = medidaReferenciaAlto < xpequenna
       ? 18
       : medidaReferenciaAlto < pequenna
@@ -699,61 +608,33 @@ tamannoIconoBack(context) {
   return medida;
 }
 
-tammannoIconoCargando(context) {
-  medidaReferenciaAlto = MediaQuery.of(context).size.height;
-
-  double medida = MediaQuery.of(context).orientation == Orientation.portrait
-      ? medidaReferenciaAlto < xpequenna
+tammannoIconoCargando(medidaReferenciaAlto) {
+  double medida = medidaReferenciaAlto < xpequenna
+      ? 60
+      : medidaReferenciaAlto < pequenna
           ? 60
-          : medidaReferenciaAlto < pequenna
+          : //Probada
+          medidaReferenciaAlto < mediana
               ? 60
-              : //Probada
-              medidaReferenciaAlto < mediana
-                  ? 60
-                  : medidaReferenciaAlto <= larga
+              : medidaReferenciaAlto <= larga
+                  ? 80
+                  : //probada
+                  medidaReferenciaAlto <= xlarga
                       ? 80
-                      : //probada
-                      medidaReferenciaAlto <= xlarga
-                          ? 80
-                          : //probada 065 640
-                          medidaReferenciaAlto <= xxlarga
-                              ? 90
-                              : medidaReferenciaAlto <= xxxlarga
-                                  ? 100
-                                  : //probado en 913
-                                  medidaReferenciaAlto <= xxxxlarga
+                      : //probada 065 640
+                      medidaReferenciaAlto <= xxlarga
+                          ? 90
+                          : medidaReferenciaAlto <= xxxlarga
+                              ? 100
+                              : //probado en 913
+                              medidaReferenciaAlto <= xxxxlarga
+                                  ? 150
+                                  : medidaReferenciaAlto <= xxxxxlarga
                                       ? 150
-                                      : medidaReferenciaAlto <= xxxxxlarga
+                                      : //probada
+                                      medidaReferenciaAlto <= xxxxxxlarga
                                           ? 150
-                                          : //probada
-                                          medidaReferenciaAlto <= xxxxxxlarga
-                                              ? 150
-                                              : 90
-      : //portraint
-
-      medidaReferenciaAlto < xpequenna
-          ? 70
-          : medidaReferenciaAlto < pequenna
-              ? 70
-              : //probada
-              medidaReferenciaAlto < mediana
-                  ? 70
-                  : medidaReferenciaAlto <= larga
-                      ? 80
-                      : medidaReferenciaAlto <= xlarga
-                          ? 80
-                          : medidaReferenciaAlto <= xxlarga
-                              ? 90
-                              : medidaReferenciaAlto <= xxxlarga
-                                  ? 100
-                                  : medidaReferenciaAlto <= xxxxlarga
-                                      ? 150
-                                      : medidaReferenciaAlto <= xxxxxlarga
-                                          ? 150
-                                          : //probada
-                                          medidaReferenciaAlto <= xxxxxxlarga
-                                              ? 150
-                                              : 150;
+                                          : 90;
 /*
  //print(medidaReferencia);
  double medida= MediaQuery.of(context).orientation==  Orientation.portrait?

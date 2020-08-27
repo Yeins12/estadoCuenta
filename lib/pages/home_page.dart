@@ -3,6 +3,7 @@ import '.././widgets/alert/alert_dialogo.dart';
 
 import '../service/menuService/credit_simulator_service.dart';
 
+import '../util/colores.dart';
 import 'menu_pages/credit_simulator_page.dart';
 
 import '../pages/Account/account_page.dart';
@@ -35,7 +36,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
 
-  _getDrawerItemWidget(int pos) {
+  _getDrawerItemWidget(int pos, medidaReferenciaAlto) {
     switch (pos) {
       case 0:
         return AccountPage();
@@ -55,11 +56,13 @@ class _HomePageState extends State<HomePage> {
                         child: Icon(Icons.pan_tool, color: Colors.white)),
                   ),
                 ),
-                SizedBox(height: sizedBox(context)),
+                SizedBox(height: sizedBox(medidaReferenciaAlto)),
                 Center(
                     child: Text(
-                  'En construcción ...',
-                  style: TextStyle(color: Colors.orange),
+                  'Próximamente ...',
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: letraTextoTamanno(medidaReferenciaAlto)),
                 )),
               ],
             )),
@@ -79,11 +82,13 @@ class _HomePageState extends State<HomePage> {
                         child: Icon(Icons.pan_tool, color: Colors.white)),
                   ),
                 ),
-                SizedBox(height: sizedBox(context)),
+                SizedBox(height: sizedBox(medidaReferenciaAlto)),
                 Center(
                     child: Text(
-                  'En construcción ...',
-                  style: TextStyle(color: Colors.orange),
+                  'Próximamente ...',
+                  style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: letraTextoTamanno(medidaReferenciaAlto)),
                 )),
               ],
             )),
@@ -106,6 +111,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
+    double medidaReferenciaAncho = MediaQuery.of(context).size.height;
     List<Widget> drawerOptions = [];
     for (var i = 0; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];
@@ -113,7 +120,8 @@ class _HomePageState extends State<HomePage> {
           title: Card(
             color: i == _selectedDrawerIndex ? primaryColor : Colors.white,
             elevation: 5,
-            child: buildMenuItem(_selectedDrawerIndex, d.icon, d.title,
+            child: buildMenuItem(
+                medidaReferenciaAlto, _selectedDrawerIndex, d.icon, d.title,
                 opacity: 1.0,
                 color: i == _selectedDrawerIndex ? Colors.white : primaryColor),
           ),
@@ -124,16 +132,17 @@ class _HomePageState extends State<HomePage> {
     }
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
+          brightness: Brightness.dark,
           iconTheme: IconThemeData(color: Colors.white),
           actions: [
             IconButton(
                 color: Colors.white,
                 icon: Icon(
                   Icons.exit_to_app,
-                  size: tamannoIcono(context),
+                  size: tamannoIcono(medidaReferenciaAlto),
                 ),
-                onPressed: () => mostrarDialogoCerrar(context)),
+                onPressed: () =>
+                    mostrarDialogoCerrar(context, medidaReferenciaAlto)),
           ],
           centerTitle: true,
           backgroundColor: primaryColor,
@@ -141,79 +150,85 @@ class _HomePageState extends State<HomePage> {
           title: Text(
             widget.drawerItems[_selectedDrawerIndex].titleLong,
             style: TextStyle(
-              fontSize: letraBarTamanno(context),
+              fontSize: letraBarTamanno(medidaReferenciaAlto),
               color: Colors.white,
               fontFamily: 'berlin',
             ),
           )),
-      drawer: 
-                   Container(
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.only(
-                         topRight: Radius.circular(50),
-                         bottomRight: Radius.circular(50),
-                       )
-                     ),
-                     width: menuSize(context),
-                     
-                     child: Center(
-                       child: ListView(
-                         shrinkWrap: true,
+      drawer: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/img/logoctav.png'),
+                alignment: Alignment.topCenter),
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(
+                  radioMenu(medidaReferenciaAlto, medidaReferenciaAncho)),
+              bottomRight: Radius.circular(
+                  radioMenu(medidaReferenciaAlto, medidaReferenciaAncho)),
+            )),
+        width: menuSize(medidaReferenciaAlto),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: primaryColor,
+                ),
+                onPressed: null,
+                label: Text("Volver",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: letraTextoTamanno(medidaReferenciaAlto),
+                        color: Colors.black)),
+                color: Colors.black,
+              ),
+              Column(children: drawerOptions),
+              Container(
+                margin: EdgeInsets.only(right: 10, left: 10),
+                padding: EdgeInsets.only(
+                    top: paddingAll(medidaReferenciaAlto),
+                    bottom: paddingAll(medidaReferenciaAlto)),
+                child: GestureDetector(
+                  onTap: () =>
+                      mostrarDialogoCerrar(context, medidaReferenciaAlto),
+                  child: Card(
+                    color: Color.fromRGBO(35, 182, 116, 0.5),
+                    child: Padding(
+                      padding: EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          FlatButton.icon(
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: primaryColor,
-                            ),
-                            onPressed: null,
-                            label: Text("Volver",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: letraTextoTamanno(context),
-                                    color: Colors.black)),
-                            color: Colors.black,
+                          Icon(
+                            Icons.exit_to_app,
+                            color: Colors.white,
                           ),
-                          Column(children: drawerOptions),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: paddingAll(context),
-                                bottom: paddingAll(context)),
-                            child: GestureDetector(
-                              onTap: () => mostrarDialogoCerrar(context),
-                              child: Card(
-                                color: Color.fromRGBO(35, 182, 116, 0.5),
-                                child: Padding(
-                                  padding: EdgeInsets.all(paddingAll(context)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.exit_to_app,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: sizedBox(context),
-                                      ),
-                                      Text('Salir',
-                                          style: TextStyle(color: Colors.white, fontSize: letraTextoTamanno(context)))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                          SizedBox(
+                            width: sizedBox(medidaReferenciaAlto),
                           ),
+                          Text('Salir',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      letraTextoTamanno(medidaReferenciaAlto))),
                         ],
-                  
-                
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-                     ),
-                   ),
-      body: _getDrawerItemWidget(_selectedDrawerIndex),
+      body: _getDrawerItemWidget(_selectedDrawerIndex, medidaReferenciaAlto),
     );
   }
 
-  Opacity buildMenuItem(int selected, IconData icon, String title,
+  Opacity buildMenuItem(
+      medidaReferenciaAlto, int selected, IconData icon, String title,
       {double opacity = 0.3, Color color = Colors.black}) {
     return Opacity(
       opacity: opacity,
@@ -234,7 +249,7 @@ class _HomePageState extends State<HomePage> {
             Text(title,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: letraTextoTamanno(context) ,
+                    fontSize: letraTextoTamanno(medidaReferenciaAlto),
                     color: color)),
             SizedBox(
               height: 10.0,

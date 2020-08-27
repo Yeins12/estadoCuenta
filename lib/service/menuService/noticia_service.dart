@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
 import '../../widgets/alert/alert_dialogo.dart';
 
 import '../../models/noticia_model.dart';
@@ -11,7 +12,13 @@ class NoticiaService {
     String ruta = 'http://conres.com.co/wsestadocuenta/noticia.php';
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      toastShow(context, 'Verifica tu conexión a internet');
+      mostrarDialogoWidget(
+          0,
+          context,
+          'Aviso!',
+          'Verifica tu conexión a internet',
+          1,
+          MediaQuery.of(context).size.height);
       NoticiaModelList noticiaList;
       return noticiaList;
     } else {

@@ -8,21 +8,41 @@ import '../../util/colores.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   //Declaración de variables
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   Map<String, String> _datosAtenticar = {
     'usuario': '',
     'clave': '',
   };
+
   TabController controller;
+
   TextEditingController usuarioController = new TextEditingController();
+
   TextEditingController claveController = new TextEditingController();
+
   bool _obscureText = true;
 
   @override
+  void dispose() {
+    // Limpia el controlador cuando el widget se elimine del árbol de widgets
+    //controller.dispose();
+    usuarioController.dispose();
+    claveController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
+    double medidaReferenciaAncho = MediaQuery.of(context).size.width;
     //WIDGET TOP
     Widget _top() {
       return Container(
@@ -37,8 +57,8 @@ class LoginPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  left: paddingAll(context) * 4,
-                  top: paddingTop(context)), //9),
+                  left: paddingAll(medidaReferenciaAlto) * 4,
+                  top: paddingTop(medidaReferenciaAlto)), //9),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -49,7 +69,8 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: 'berlin',
                           color: Colors.white,
-                          fontSize: tileSize(context),
+                          fontSize: tileSize(
+                              medidaReferenciaAlto, medidaReferenciaAncho),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -60,7 +81,8 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: 'berlin',
                           color: Colors.white,
-                          fontSize: tileSize(context),
+                          fontSize: tileSize(
+                              medidaReferenciaAlto, medidaReferenciaAncho),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -71,7 +93,8 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: 'berlin',
                           color: Colors.white,
-                          fontSize: tileSize(context),
+                          fontSize: tileSize(
+                              medidaReferenciaAlto, medidaReferenciaAncho),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -79,8 +102,8 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: paddingAll(context) * 5,
-              top: paddingAll(context) * 9,
+              right: paddingAll(medidaReferenciaAlto) * 5,
+              top: paddingAll(medidaReferenciaAlto) * 9,
               width: MediaQuery.of(context).size.width * 0.25,
               height: MediaQuery.of(context).size.width * 0.4,
               child: FadeAnimation(
@@ -100,13 +123,14 @@ class LoginPage extends StatelessWidget {
     Widget _bottom() {
       return Padding(
         padding: EdgeInsets.only(
-            right: paddingAll(context) * 5, left: paddingAll(context) * 5),
+            right: paddingAll(medidaReferenciaAlto) * 5,
+            left: paddingAll(medidaReferenciaAlto) * 5),
         child: Column(
           children: <Widget>[
             FadeAnimation(
                 1.8,
                 Container(
-                  padding: EdgeInsets.all(paddingAll(context)),
+                  padding: EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -126,6 +150,9 @@ class LoginPage extends StatelessWidget {
                               border: Border(
                                   bottom: BorderSide(color: Colors.grey[100]))),
                           child: TextFormField(
+                            style: TextStyle(
+                                fontSize:
+                                    letraTextoTamanno(medidaReferenciaAlto)),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Usuario invalido';
@@ -139,12 +166,18 @@ class LoginPage extends StatelessWidget {
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Usuario",
-                                hintStyle: TextStyle(color: Colors.grey[400],fontSize: letraTextoTamanno(context))),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: letraTextoTamanno(
+                                        medidaReferenciaAlto))),
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.all(8.0),
                           child: TextFormField(
+                            style: TextStyle(
+                                fontSize:
+                                    letraTextoTamanno(medidaReferenciaAlto)),
                             obscureText: _obscureText,
                             validator: (value) {
                               if (value.isEmpty) {
@@ -159,7 +192,10 @@ class LoginPage extends StatelessWidget {
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Clave",
-                                hintStyle: TextStyle(color: Colors.grey[400], fontSize: letraTextoTamanno(context))),
+                                hintStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: letraTextoTamanno(
+                                        medidaReferenciaAlto))),
                           ),
                         )
                       ],
@@ -176,7 +212,13 @@ class LoginPage extends StatelessWidget {
                     var connectivityResult =
                         await (Connectivity().checkConnectivity());
                     if (connectivityResult == ConnectivityResult.none) {
-                      toastShow(context, 'Verifica tu conexión a internet');
+                      mostrarDialogoWidget(
+                          0,
+                          context,
+                          'Aviso!',
+                          'Verifica tu conexión a internet',
+                          1,
+                          medidaReferenciaAlto);
                     } else {
                       if (!_formKey.currentState.validate()) {
                         // Invalid!
@@ -193,7 +235,8 @@ class LoginPage extends StatelessWidget {
                             context,
                             'Ha ocurrido un error!',
                             'Autenticación fallida. Intente de nuevo',
-                            1);
+                            1,
+                            medidaReferenciaAlto);
                       }
                     }
                   },
@@ -209,13 +252,15 @@ class LoginPage extends StatelessWidget {
                       child: Text(
                         "Iniciar Sesión",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: letraTextoTamanno(context)),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: letraTextoTamanno(medidaReferenciaAlto)),
                       ),
                     ),
                   ),
                 )),
             SizedBox(
-              height: sizedBox(context),
+              height: sizedBox(medidaReferenciaAlto),
             ),
           ],
         ),

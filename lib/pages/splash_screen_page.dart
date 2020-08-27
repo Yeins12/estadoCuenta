@@ -8,12 +8,8 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: primaryColor,
       body: Center(
           child: Container(
-        margin: EdgeInsets.all(
-            medidaReferenciaAlto = MediaQuery.of(context).size.height * 0.18),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/img/inicio.png'),
-                fit: BoxFit.contain)),
+        child: Image.asset('assets/img/inicio.png',
+            width: MediaQuery.of(context).size.height * 0.3, fit: BoxFit.fill),
       )),
     );
   }

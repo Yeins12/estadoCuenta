@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import '../../widgets/alert/alert_dialogo.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -8,12 +11,14 @@ import 'dart:convert' as convert;
 
 class CreditDetailService {
   Future<CreditDetailList> creditDetailQuery(context) async {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
     CreditDetailList creditDetailFinal;
     final provider = Provider.of<LoginService>(context, listen: false);
     String ruta = 'http://conres.com.co/wsestadocuenta/credpndntes.php';
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      toastShow(context, 'Verifica tu conexión a internet');
+      mostrarDialogoWidget(0, context, 'Aviso!',
+          'Verifica tu conexión a internet', 1, medidaReferenciaAlto);
       CreditDetailList creditDetailFinal;
       return creditDetailFinal;
     } else {
@@ -26,8 +31,12 @@ class CreditDetailService {
               CreditDetailList.fromJson(jsonResponse['dtllecrdto']);
           return creditDetailFinal;
         }
-      } catch (e) {
-        return creditDetailFinal;
+      } on TimeoutException {
+        mostrarDialogoWidget(0, context, 'Aviso!',
+            'Error inesperado, inténtelo  nuevamente', 1, medidaReferenciaAlto);
+      } on Error {
+        mostrarDialogoWidget(0, context, 'Aviso!',
+            'Error inesperado, inténtelo  nuevamente', 1, medidaReferenciaAlto);
       }
     }
 

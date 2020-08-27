@@ -98,7 +98,7 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
             DateTime.parse(_creditData['fecha']));
   }
 
-  Widget _button(context) {
+  Widget _button(medida, context) {
     return RaisedButton(
       onPressed: () {
         if (!_clear) {
@@ -125,11 +125,14 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
       },
       color: Colors.orange[200],
       textColor: Colors.white,
-      child: Text(_clear ? 'Limpiar' : 'Calcular', style: TextStyle(fontSize: letraTextoTamanno(context)),),
+      child: Text(
+        _clear ? 'Limpiar' : 'Calcular',
+        style: TextStyle(fontSize: letraTextoTamanno(medida)),
+      ),
     );
   }
 
-  Widget _button2(context) {
+  Widget _button2(medida, context) {
     return Row(
       children: [
         Expanded(
@@ -141,24 +144,26 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
             })),
             color: primaryColor,
             textColor: Colors.white,
-            child: Text('+  Ver amortización', style: TextStyle(fontSize: letraTextoTamanno(context))),
+            child: Text('+  Ver amortización',
+                style: TextStyle(fontSize: letraTextoTamanno(medida))),
           ),
         ),
       ],
     );
   }
 
-  Widget _pago(context) {
+  Widget _pago(medida, context) {
     var provider = Provider.of<CreditSimulatorService>(context).getValor;
     return Container(
       color: primaryColor,
-      padding: EdgeInsets.all(paddingAll(context)),
+      padding: EdgeInsets.all(paddingAll(medida)),
       child: TextField(
         inputFormatters: [
           WhitelistingTextInputFormatter.digitsOnly,
           CurrencyInputFormatter(context)
         ],
-        style: TextStyle(color: Colors.white, fontSize: letraTextoTamanno(context)),
+        style:
+            TextStyle(color: Colors.white, fontSize: letraTextoTamanno(medida)),
         enabled: false,
         textAlign: TextAlign.center,
         controller: cuotaController..text = '$provider',
@@ -168,12 +173,13 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
             labelText: 'Pago:',
             filled: true,
             labelStyle: TextStyle(
-                color: Colors.white, fontSize: letraTextoTamanno(context))),
+                color: Colors.white, fontSize: letraTextoTamanno(medida))),
       ),
     );
   }
 
   Widget _textForm(
+    medida,
     context,
     text,
     campo,
@@ -186,7 +192,7 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.green[100]))),
       child: TextFormField(
-        style: TextStyle(fontSize: letraTextoTamanno(context)),
+        style: TextStyle(fontSize: letraTextoTamanno(medida)),
         keyboardType: type == 0 ? TextInputType.datetime : TextInputType.number,
         inputFormatters: type == 1
             ? [
@@ -220,14 +226,15 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
                 : controller)
             : controller,
         decoration: InputDecoration(
-            hintStyle: TextStyle(color: Colors.black, fontSize: letraTextoTamanno(context)),
+            hintStyle: TextStyle(
+                color: Colors.black, fontSize: letraTextoTamanno(medida)),
             hintText: type != 0 ? initial : '',
             suffixText: type == 2 ? '%' : type == 3 ? 'Meses' : '',
             border: InputBorder.none,
             labelText: text,
             filled: true,
             labelStyle: TextStyle(
-                color: primaryColor, fontSize: letraTextoTamanno(context))),
+                color: primaryColor, fontSize: letraTextoTamanno(medida))),
       ),
     );
   }
@@ -237,13 +244,14 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
     double medida = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                color: Colors.transparent,
-                height: creditSize(context),
-                child: Stack(
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
                   children: [
                     Container(
                       color: primaryColor,
@@ -256,72 +264,68 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
                           right: medida * 0.05,
                           left: medida * 0.05),
                       child: Card(
-                        elevation: 15.0,
-                        child: Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/img/logoctav.png'))),
-                            ),
-                            Positioned.fill(
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: Form(
-                                  key: _formKey,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        _textForm(
-                                            context,
-                                            'Valor del crédito:',
-                                            'valor',
-                                            valorController,
-                                            1,
-                                            '\$ 0.00'),
-                                        _textForm(
-                                            context,
-                                            'Tasa de interés:',
-                                            'interes',
-                                            interesController,
-                                            2,
-                                            '0 '),
-                                        _textForm(context, 'Plazo:', 'plazo',
-                                            plazoController, 3, '0'),
-                                        GestureDetector(
-                                          onTap: () => Platform.isAndroid
-                                              ? _selectDate(context)
-                                              : _iosDate(context),
-                                          child: AbsorbPointer(
-                                            child: _textForm(
-                                                context,
-                                                'Fecha:',
-                                                'fecha',
-                                                fechaController,
-                                                0,
-                                                newFormat
-                                                    .format(DateTime.now())
-                                                    .toString()),
-                                          ),
+                          elevation: 15.0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        AssetImage('assets/img/logoctav.png'))),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Form(
+                                key: _formKey,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      _textForm(
+                                          medida,
+                                          context,
+                                          'Valor del crédito:',
+                                          'valor',
+                                          valorController,
+                                          1,
+                                          '\$ 0.00'),
+                                      _textForm(
+                                          medida,
+                                          context,
+                                          'Tasa de interés:',
+                                          'interes',
+                                          interesController,
+                                          2,
+                                          '0 '),
+                                      _textForm(medida, context, 'Plazo:',
+                                          'plazo', plazoController, 3, '0'),
+                                      GestureDetector(
+                                        onTap: () => Platform.isAndroid
+                                            ? _selectDate(context)
+                                            : _iosDate(context),
+                                        child: AbsorbPointer(
+                                          child: _textForm(
+                                              medida,
+                                              context,
+                                              'Fecha:',
+                                              'fecha',
+                                              fechaController,
+                                              0,
+                                              newFormat
+                                                  .format(DateTime.now())
+                                                  .toString()),
                                         ),
-                                        _pago(context),
-                                      ],
-                                    ),
+                                      ),
+                                      _pago(medida, context),
+                                    ],
                                   ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ),
+                            ),
+                          )),
                     ),
                   ],
                 ),
-              ),
-              _button(context),
-              _clear ? _button2(context) : SizedBox()
-            ],
+                _button(medida, context),
+                _clear ? _button2(medida, context) : SizedBox()
+              ],
+            ),
           ),
         ));
   }

@@ -1,3 +1,5 @@
+import '../../widgets/alert/alert_dialogo.dart';
+
 import '../../util/icon_msg_back.dart';
 
 import '../../models/creditDetail_model.dart';
@@ -20,6 +22,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  double medidaReferenciaAlto;
   SetGetListCredit cred = new SetGetListCredit();
   Widget _expandedTitle(title, flex) {
     return Expanded(
@@ -29,7 +32,7 @@ class _AccountPageState extends State<AccountPage> {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: letraTextoTamanno(context),
+                    fontSize: letraTextoTamanno(medidaReferenciaAlto),
                     fontWeight: FontWeight.bold))));
   }
 
@@ -38,31 +41,32 @@ class _AccountPageState extends State<AccountPage> {
       elevation: 5,
       child: Padding(
         padding: EdgeInsets.only(
-            top: paddingAll(context),
-            bottom: paddingAll(context),
-            right: paddingAll(context) + 5,
-            left: paddingAll(context) + 5),
+            top: paddingAll(medidaReferenciaAlto),
+            bottom: paddingAll(medidaReferenciaAlto),
+            right: paddingAll(medidaReferenciaAlto) + 5,
+            left: paddingAll(medidaReferenciaAlto) + 5),
         child: Column(
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  top: paddingAll(context) + 5,
-                  bottom: paddingAll(context) + 5),
+                  top: paddingAll(medidaReferenciaAlto) + 5,
+                  bottom: paddingAll(medidaReferenciaAlto) + 5),
               child: Center(
                 child: Text('DETALLE DE OBLIGACIONES',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: letraTextoTamanno(context),
+                        fontSize: letraTextoTamanno(medidaReferenciaAlto),
                         fontWeight: FontWeight.bold)),
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 _expandedTitle('Descripción', 2),
                 _expandedTitle('Valor', 1),
                 _expandedTitle('Pendiente', 1),
                 SizedBox(
-                  width: sizedBox(context) + 35,
+                  width: sizedBox(medidaReferenciaAlto) + 30,
                 )
               ],
             ),
@@ -74,7 +78,7 @@ class _AccountPageState extends State<AccountPage> {
 
   Widget _expandedContainer(data, flex) {
     TextStyle es1 = TextStyle(
-      fontSize: letraTextoTamanno(context),
+      fontSize: letraTextoTamanno(medidaReferenciaAlto),
     );
     return Expanded(
         flex: flex,
@@ -90,7 +94,8 @@ class _AccountPageState extends State<AccountPage> {
   Widget _container() {
     return Container(
         margin: EdgeInsets.only(
-            top: paddingAll(context) + 5, bottom: paddingAll(context) + 5),
+            top: paddingAll(medidaReferenciaAlto) + 5,
+            bottom: paddingAll(medidaReferenciaAlto) + 5),
         child: FutureBuilder<CreditDetailList>(
             future: CreditDetailService().creditDetailQuery(context),
             builder: (context, snapshot) {
@@ -105,25 +110,33 @@ class _AccountPageState extends State<AccountPage> {
                     itemBuilder: (BuildContext context, index) {
                       //print(snapshot.data.creditsDetail[index]);
                       return Card(
+                        color: index % 2 == 0 ? Colors.white : Colors.green[50],
                         child: ExpansionTile(
-                          title: Row(
-                            children: [
-                              _expandedContainer(
-                                  snapshot
-                                      .data.creditsDetail[index].descripcion,
-                                  2),
-                              _expandedContainer(
-                                  snapshot.data.creditsDetail[index].valor, 1),
-                              _expandedContainer(
-                                  snapshot.data.creditsDetail[index].pendiente,
-                                  1)
-                            ],
+                          title: IntrinsicHeight(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _expandedContainer(
+                                    snapshot
+                                        .data.creditsDetail[index].descripcion,
+                                    2),
+                                VerticalDivider(color: primaryColor),
+                                _expandedContainer(
+                                    snapshot.data.creditsDetail[index].valor,
+                                    1),
+                                VerticalDivider(color: primaryColor),
+                                _expandedContainer(
+                                    snapshot
+                                        .data.creditsDetail[index].pendiente,
+                                    1)
+                              ],
+                            ),
                           ),
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  right: paddingAll(context),
-                                  left: paddingAll(context)),
+                                  right: paddingAll(medidaReferenciaAlto),
+                                  left: paddingAll(medidaReferenciaAlto)),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -134,7 +147,10 @@ class _AccountPageState extends State<AccountPage> {
                                         'Detalle de cuenta',
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(color: primaryColor, fontSize: letraTextoTamanno(context)),
+                                        style: TextStyle(
+                                            color: primaryColor,
+                                            fontSize: letraTextoTamanno(
+                                                medidaReferenciaAlto)),
                                       ),
                                       onPressed: () {
                                         Navigator.push(context,
@@ -149,7 +165,7 @@ class _AccountPageState extends State<AccountPage> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: sizedBox(context),
+                                    width: sizedBox(medidaReferenciaAlto),
                                   ),
                                   Expanded(
                                     child: RaisedButton(
@@ -157,7 +173,10 @@ class _AccountPageState extends State<AccountPage> {
                                           'Amortización de crédito',
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white, fontSize: letraTextoTamanno(context)),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: letraTextoTamanno(
+                                                  medidaReferenciaAlto)),
                                         ),
                                         onPressed: () => Navigator.push(context,
                                                 MaterialPageRoute(
@@ -181,10 +200,10 @@ class _AccountPageState extends State<AccountPage> {
                       );
                     });
               } else if (snapshot.hasError) {
-                return iconMsgBack(
-                    context, Icons.error, 'Ha ocurrido un error', 1);
+                return iconMsgBack(medidaReferenciaAlto, Icons.error,
+                    'Ha ocurrido un error', 1);
               }
-              return Center(child: iconCargando(context));
+              return Center(child: iconCargando(medidaReferenciaAlto));
             }));
   }
 
@@ -199,6 +218,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    medidaReferenciaAlto = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -210,7 +230,9 @@ class _AccountPageState extends State<AccountPage> {
                 pinned: true,
                 floating: true,
                 delegate: CustomSliverDelegate(
-                    expandedHeight: heightCard(context), user: 'widget.user'),
+                    expandedHeight: heightCard(medidaReferenciaAlto),
+                    user: 'widget.user',
+                    medidaReferenciaAlto: medidaReferenciaAlto),
               ),
               SliverFillRemaining(child: _contenido())
             ],
@@ -218,15 +240,16 @@ class _AccountPageState extends State<AccountPage> {
         ),
         floatingActionButton: Padding(
           padding: EdgeInsets.only(
-              bottom: (paddingAll(context) - 5).isNegative
+              bottom: (paddingAll(medidaReferenciaAlto) - 5).isNegative
                   ? 3
-                  : (paddingAll(context) - 5)),
+                  : (paddingAll(medidaReferenciaAlto) - 5)),
           child: FloatingActionButton(
             backgroundColor: primaryColor,
             child: Icon(Icons.file_download,
-                color: Colors.white, size: tamannoIcono(context) - 2),
+                color: Colors.white,
+                size: tamannoIcono(medidaReferenciaAlto) - 2),
             onPressed: () => cred.creditDetail == null
-                ? print('Cargando')
+                ? toastShow(context, 'Intenta nuevamente')
                 : PdfAccountWidget(creditList: cred.creditDetail)
                     .pdfDownloadComplete(),
           ),
@@ -240,10 +263,12 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final bool hideTitleWhenExpanded;
   final String user;
+  final medidaReferenciaAlto;
   CustomSliverDelegate(
       {@required this.expandedHeight,
       this.hideTitleWhenExpanded = true,
-      this.user});
+      this.user,
+      this.medidaReferenciaAlto});
 
   @override
   Widget build(
@@ -268,7 +293,7 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
           Positioned(
             left: 0.0,
             right: 0.0,
-            top: paddingAll(context),
+            top: paddingAll(medidaReferenciaAlto),
             bottom: 0.0,
             child: Opacity(
               opacity: percent,
@@ -276,8 +301,7 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                 padding: EdgeInsets.symmetric(horizontal: 30 * percent),
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)
-                  ),
+                      borderRadius: BorderRadius.circular(15)),
                   elevation: 20.0,
                   child: Stack(
                     children: [
@@ -295,8 +319,8 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                               if (snapshot.hasData) {
                                 return SingleChildScrollView(
                                   child: Container(
-                                    padding:
-                                        EdgeInsets.all(paddingAll(context)),
+                                    padding: EdgeInsets.all(
+                                        paddingAll(medidaReferenciaAlto)),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -305,26 +329,29 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                                       children: <Widget>[
                                         Center(
                                             child: Text(snapshot.data.user,
-                                            overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: letraTextoTamanno(
-                                                            context) +
+                                                            medidaReferenciaAlto) +
                                                         1,
                                                     fontFamily: 'berlin',
                                                     fontWeight:
                                                         FontWeight.bold))),
                                         SizedBox(
-                                          height: sizedBox(context),
+                                          height:
+                                              sizedBox(medidaReferenciaAlto),
                                         ),
                                         Text(snapshot.data.cc,
-                                        overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              fontSize:
-                                                  letraTextoTamanno(context),
+                                              fontSize: letraTextoTamanno(
+                                                  medidaReferenciaAlto),
                                             )),
                                         SizedBox(
-                                          height: sizedBox(context) + 5,
+                                          height:
+                                              sizedBox(medidaReferenciaAlto) +
+                                                  5,
                                         ),
                                         Row(
                                           children: <Widget>[
@@ -332,11 +359,12 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                                                 child: Center(
                                                     child: Text(
                                                         'Saldo Pendiente:',
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             fontSize:
                                                                 letraTextoTamanno(
-                                                                    context),
+                                                                    medidaReferenciaAlto),
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold)))),
@@ -344,11 +372,12 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                                                 child: Center(
                                                     child: Text(
                                                         '\u0024 ${snapshot.data.totalValue}',
-                                                        overflow: TextOverflow.ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             fontSize:
                                                                 letraTextoTamanno(
-                                                                    context),
+                                                                    medidaReferenciaAlto),
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold))))
@@ -359,7 +388,8 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                                   ),
                                 );
                               } else if (snapshot.hasError) {
-                                return Text("${snapshot.error}");
+                                return Text(
+                                    "Ha ocurrido un error"); //Text("${snapshot.error}");
                               }
                               return Center(child: Text('...'));
                             },

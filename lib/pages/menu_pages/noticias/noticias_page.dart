@@ -3,9 +3,7 @@ import '../../../util/icon_msg_back.dart';
 import 'package:flutter/material.dart';
 
 class NoticiasPage extends StatelessWidget {
-  Widget _card(snapshot, index, context) {
-    final medidaReferencia = MediaQuery.of(context).size.height;
-
+  Widget _card(snapshot, index, medidaReferenciaAlto) {
     return GestureDetector(
       child: Card(
         color: primaryColor,
@@ -21,12 +19,12 @@ class NoticiasPage extends StatelessWidget {
                     color: Colors.white,
                     child: Image.network(
                       snapshot.data[index].ruta,
-                      width: medidaReferencia >= 1000
+                      width: medidaReferenciaAlto >= 1000
                           ? 240
-                          : medidaReferencia >= 600 ? 160 : 120,
-                      height: medidaReferencia >= 1000
+                          : medidaReferenciaAlto >= 600 ? 160 : 120,
+                      height: medidaReferenciaAlto >= 1000
                           ? 200
-                          : medidaReferencia >= 600 ? 150 : 100,
+                          : medidaReferenciaAlto >= 600 ? 150 : 100,
                     )),
               ],
             ),
@@ -42,23 +40,23 @@ class NoticiasPage extends StatelessWidget {
                     Text(
                       snapshot.data[index].titulo,
                       style: TextStyle(
-                          fontSize: letraTextoTamanno(context),
+                          fontSize: letraTextoTamanno(medidaReferenciaAlto),
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
                     SizedBox(
-                      height: sizedBox(context),
+                      height: sizedBox(medidaReferenciaAlto),
                     ),
                     Text(
                       snapshot.data[index].fecha,
                       style: TextStyle(
-                          fontSize: letraTextoTamanno(context),
+                          fontSize: letraTextoTamanno(medidaReferenciaAlto),
                           color: Colors.grey),
                     ),
                     SizedBox(
-                      height: (paddingAll(context) - 5).isNegative
+                      height: (paddingAll(medidaReferenciaAlto) - 5).isNegative
                           ? 3
-                          : (paddingAll(context) - 5),
+                          : (paddingAll(medidaReferenciaAlto) - 5),
                     ),
                   ],
                 ),
@@ -70,7 +68,7 @@ class NoticiasPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLista() {
+  Widget _buildLista(medidaReferenciaAlto) {
     return FutureBuilder(
         future: null,
         builder: (context, snapshot) {
@@ -81,7 +79,7 @@ class NoticiasPage extends StatelessWidget {
               shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, index) {
-                return _card(snapshot, index, context);
+                return _card(snapshot, index, medidaReferenciaAlto);
               },
             );
           } else if (snapshot.hasError) {
@@ -93,9 +91,10 @@ class NoticiasPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _buildLista(),
+      body: _buildLista(medidaReferenciaAlto),
     );
   }
 }

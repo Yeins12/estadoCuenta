@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'colores.dart';
 
-Widget iconMsgBack(context, icon, msg, tipo) {
+Widget iconMsgBack(medidaReferenciaAlto, icon, msg, tipo) {
   return SingleChildScrollView(
     child: Column(
       children: <Widget>[
@@ -13,24 +13,25 @@ Widget iconMsgBack(context, icon, msg, tipo) {
         Icon(
           icon,
           color: Colors.orange[200],
-          size: tipo == 2 ? 60 : tamannoIconoBack(context),
+          size: tipo == 2 ? 60 : tamannoIconoBack(medidaReferenciaAlto),
         ),
         Text(
           msg,
           style: TextStyle(
-              color: Colors.orange[300], fontSize: letraTextoTamanno(context)),
+              color: Colors.orange[300],
+              fontSize: letraTextoTamanno(medidaReferenciaAlto)),
         )
       ],
     ),
   );
 }
 
-Widget iconCargando(context) {
+Widget iconCargando(medidaReferenciaAlto) {
   return Center(
     child: Image.asset(
       'assets/img/logo.gif',
-      height: tammannoIconoCargando(context),
-      width: tammannoIconoCargando(context),
+      height: tammannoIconoCargando(medidaReferenciaAlto),
+      width: tammannoIconoCargando(medidaReferenciaAlto),
     ),
   );
 }
