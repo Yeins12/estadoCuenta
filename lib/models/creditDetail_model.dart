@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../util/time_convert.dart';
 
 class CreditDetailList {
@@ -35,6 +37,7 @@ class CreditDetailModel {
       this.detCuenta});
 
   factory CreditDetailModel.fromJson(Map<String, dynamic> json) {
+    final formatter = NumberFormat.simpleCurrency(locale: 'en');
     var list = json['detalle'] as List;
     List<DetailModel> detailList =
         list.map((i) => DetailModel.fromJson(i)).toList();
@@ -42,8 +45,8 @@ class CreditDetailModel {
     return new CreditDetailModel(
         nrocredio: json["nrocrdto"],
         fechainicio: fechaConvert(json["fechainicio"]),
-        valor: json["valor"],
-        pendiente: json["pendiente"],
+        valor: formatter.format(double.parse(json["valor"])),
+        pendiente: formatter.format(double.parse(json["pendiente"])),
         descripcion: json["descripcion"],
         cuotas: json["cuotas"],
         cpendientes: json["cpendientes"],
@@ -76,16 +79,17 @@ class DetailModel {
     this.total,
   });
   factory DetailModel.fromJson(Map<String, dynamic> parsedJson) {
+    final formatter = NumberFormat.simpleCurrency(locale: 'en');
     return DetailModel(
       recibo: parsedJson["recibo"],
       cuota: parsedJson['cuota'],
       fecha: fechaConvert(parsedJson['fecha']),
-      valor: parsedJson["valor"],
-      capital: parsedJson["capital"],
-      intereses: parsedJson["intereses"],
-      mora: parsedJson["mora"],
-      seguro: parsedJson["seguro"],
-      total: parsedJson["total"],
+      valor: formatter.format(double.parse(parsedJson["valor"])),
+      capital: formatter.format(double.parse(parsedJson["capital"])),
+      intereses: formatter.format(double.parse(parsedJson["intereses"])),
+      mora: formatter.format(double.parse(parsedJson["mora"])),
+      seguro: formatter.format(double.parse(parsedJson["seguro"])),
+      total: formatter.format(double.parse(parsedJson["total"])),
     );
   }
 }

@@ -235,22 +235,10 @@ class AccountDetailPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _listTile('Valor Cuota: ',
-                        '\$ ${creditDetail.detCuenta[index].valor}'),
-                    _listTile('Capital: ',
-                        '\$ ${creditDetail.detCuenta[index].capital}'),
-                  ],
-                ),
-                Divider(
-                  color: primaryColor,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _listTile('Intereses: ',
-                        '\$ ${creditDetail.detCuenta[index].intereses}'),
                     _listTile(
-                        'Mora: ', '\$ ${creditDetail.detCuenta[index].mora}'),
+                        'Valor Cuota: ', creditDetail.detCuenta[index].valor),
+                    _listTile(
+                        'Capital: ', creditDetail.detCuenta[index].capital),
                   ],
                 ),
                 Divider(
@@ -259,10 +247,20 @@ class AccountDetailPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _listTile('Seguro: ',
-                        '\$ ${creditDetail.detCuenta[index].seguro}'),
-                    _listTile('Total Pago: ',
-                        '\$ ${creditDetail.detCuenta[index].total}'),
+                    _listTile(
+                        'Intereses: ', creditDetail.detCuenta[index].intereses),
+                    _listTile('Mora: ', creditDetail.detCuenta[index].mora),
+                  ],
+                ),
+                Divider(
+                  color: primaryColor,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _listTile('Seguro: ', creditDetail.detCuenta[index].seguro),
+                    _listTile(
+                        'Total Pago: ', creditDetail.detCuenta[index].total),
                   ],
                 )
               ],
@@ -296,9 +294,11 @@ class AccountDetailPage extends StatelessWidget {
         actions: [
           IconButton(
               icon: Icon(Icons.file_download, color: Colors.white),
-              onPressed: () =>
-                  PdfDetailAccountWidget(creditDetail: creditDetail)
-                      .pdfDownloadDetail())
+              onPressed: () => PdfDetailAccountWidget(
+                      context: context,
+                      creditDetail: creditDetail,
+                      medidaReferenciaAlto: medidaReferenciaAlto)
+                  .pdfDownloadDetail())
         ],
       ),
       body: SingleChildScrollView(

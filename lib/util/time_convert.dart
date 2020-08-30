@@ -48,3 +48,5 @@ fechaConvert(fecha) {
   }
   return fCompleta;
 }
+
+exponentialConvert() {}

@@ -25,8 +25,8 @@ class CuentaVirtualV1 extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.white, systemNavigationBarColor: Colors.white));*/
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: primaryColor,
-    ));
+        statusBarColor: Colors.green[600],
+        statusBarBrightness: Brightness.light));
 
     return MultiProvider(
         providers: [

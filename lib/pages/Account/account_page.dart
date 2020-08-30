@@ -1,3 +1,5 @@
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../widgets/alert/alert_dialogo.dart';
 
 import '../../util/icon_msg_back.dart';
@@ -23,6 +25,10 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   double medidaReferenciaAlto;
+  String cc;
+  String name;
+  String saldo;
+
   SetGetListCredit cred = new SetGetListCredit();
   Widget _expandedTitle(title, flex) {
     return Expanded(
@@ -244,15 +250,42 @@ class _AccountPageState extends State<AccountPage> {
                   ? 3
                   : (paddingAll(medidaReferenciaAlto) - 5)),
           child: FloatingActionButton(
-            backgroundColor: primaryColor,
-            child: Icon(Icons.file_download,
-                color: Colors.white,
-                size: tamannoIcono(medidaReferenciaAlto) - 2),
-            onPressed: () => cred.creditDetail == null
-                ? toastShow(context, 'Intenta nuevamente')
-                : PdfAccountWidget(creditList: cred.creditDetail)
-                    .pdfDownloadComplete(),
-          ),
+              backgroundColor: primaryColor,
+              child: Icon(Icons.file_download,
+                  color: Colors.white,
+                  size: tamannoIcono(medidaReferenciaAlto) - 2),
+              onPressed: () async {
+                var status = await Permission.storage.status;
+                print(status.isGranted);
+
+                if (!status.isGranted) {
+                  await Permission.storage.request();
+                  cred.creditDetail == null
+                      ? toastShow(context, 'Intenta nuevamente')
+                      : PdfAccountWidget(
+                              context: context,
+                              creditList: cred.creditDetail,
+                              medidaReferenciaAlto: medidaReferenciaAlto)
+                          .pdfDownloadComplete();
+                  if (status.isDenied) {
+                    mostrarDialogoWidget(
+                        0,
+                        context,
+                        'Aviso!',
+                        'Parece que no puedo almacenar el documento en tu dispositivo, verifica los permisos de la app',
+                        1,
+                        MediaQuery.of(context).size.height);
+                  }
+                } else {
+                  cred.creditDetail == null
+                      ? toastShow(context, 'Intenta nuevamente')
+                      : PdfAccountWidget(
+                              context: context,
+                              creditList: cred.creditDetail,
+                              medidaReferenciaAlto: medidaReferenciaAlto)
+                          .pdfDownloadComplete();
+                }
+              }),
         ),
       ),
     );
@@ -371,7 +404,8 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                                             Expanded(
                                                 child: Center(
                                                     child: Text(
-                                                        '\u0024 ${snapshot.data.totalValue}',
+                                                        snapshot
+                                                            .data.totalValue,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: TextStyle(

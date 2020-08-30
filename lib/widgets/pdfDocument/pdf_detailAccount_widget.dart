@@ -1,4 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
+
+import 'package:cuenta_virtual_v100/util/colores.dart';
+import 'package:cuenta_virtual_v100/widgets/alert/alert_dialogo.dart';
+import 'package:cuenta_virtual_v100/widgets/alert/indicador_progress.dart';
+import 'package:cuenta_virtual_v100/widgets/pdfDocument/pwfWidgetUtil.dart';
+import 'package:ext_storage/ext_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../models/creditDetail_model.dart';
 import 'package:flutter/services.dart';
@@ -8,17 +18,89 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfDetailAccountWidget {
+  final context;
   final CreditDetailModel creditDetail;
-  PdfDetailAccountWidget({this.creditDetail});
+  final medidaReferenciaAlto;
+  PdfDetailAccountWidget(
+      {this.context, this.creditDetail, this.medidaReferenciaAlto});
   final pdf = pw.Document();
-  _text(title) {
-    return pw.Text(title,
-        style: pw.TextStyle(
-          fontWeight: pw.FontWeight.bold,
-        ));
+  void initState() {
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    final android = AndroidInitializationSettings('app_icon');
+    final iOS = IOSInitializationSettings();
+    final initSettings = InitializationSettings(android, iOS);
+
+    flutterLocalNotificationsPlugin.initialize(initSettings,
+        onSelectNotification: _onSelectNotification);
   }
 
-  _writeOnPdf(_logo) {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  Future<void> _onSelectNotification(String json) async {
+    final obj = jsonDecode(json);
+
+    if (obj['isSuccess']) {
+      try {
+        print('abre');
+        OpenFile.open(obj['filePath']);
+      } catch (e) {
+        mostrarDialogoWidget(
+            0,
+            context,
+            'Error al abrir el archivo!',
+            'Verifica que tengas visor PDF, tu archivo ha sido guardado en Descargas',
+            1,
+            MediaQuery.of(context).size.height);
+      }
+    } else {
+      mostrarDialogoWidget(
+          0,
+          context,
+          'Error!',
+          'Verifica que tengas visor PDF, tu archivo ha sido guardado en Descargas',
+          1,
+          MediaQuery.of(context).size.height);
+    }
+  }
+
+  Future<void> _showNotification(Map<String, dynamic> downloadStatus) async {
+    final android = AndroidNotificationDetails(
+        'channel id', 'channel name', 'channel description',
+        priority: Priority.High, importance: Importance.Max);
+    final iOS = IOSNotificationDetails();
+    final platform = NotificationDetails(android, iOS);
+    final json = jsonEncode(downloadStatus);
+    final isSuccess = downloadStatus['isSuccess'];
+
+    await flutterLocalNotificationsPlugin.show(
+        0, // notification id
+        isSuccess ? 'Guardado' : 'Error',
+        isSuccess
+            ? 'Tu detalle de estado de cuenta ya está disponible!'
+            : 'Ha ocurrido un error descargando el archivo.',
+        platform,
+        payload: json);
+  }
+
+  _contentTop(medidaReferenciaAlto, color, title, st1, data, st2) {
+    return pw.Expanded(
+        child: pw.Column(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
+      children: [
+        pw.Text(
+          title,
+          style: st1,
+          textAlign: pw.TextAlign.center,
+        ),
+        pw.Text(
+          data,
+          style: st2,
+          textAlign: pw.TextAlign.center,
+        )
+      ],
+    ));
+  }
+
+  _writeOnPdf(_logo) async {
     List<List> salidas = new List();
     salidas.add(<String>[
       'Nro Cuota',
@@ -32,7 +114,7 @@ class PdfDetailAccountWidget {
       'Nro recibo'
     ]);
     //salidas.add(creditDetail.detCuenta);
-
+    final pw.PageTheme pageTheme = await myPageTheme(PdfPageFormat.a4);
     creditDetail.detCuenta.forEach((element) {
       List<String> recind = <String>[
         element.cuota,
@@ -47,120 +129,183 @@ class PdfDetailAccountWidget {
       ];
       salidas.add(recind);
     });
-    pdf.addPage(pw.MultiPage(build: (pw.Context context) {
-      return <pw.Widget>[
-        pw.Container(
-          alignment: pw.Alignment.center,
-          padding: const pw.EdgeInsets.only(top: 5, bottom: 10),
-          height: 80,
-          child: _logo != null ? pw.Image(_logo) : pw.PdfLogo(),
-        ),
-        pw.Header(
-            level: 0,
-            child: pw.Text("TU ESTADO DE CUENTA",
-                style: pw.TextStyle(
-                    color: PdfColor.fromHex('#009688'),
-                    fontWeight: pw.FontWeight.bold,
-                    fontSize: 20))),
-        pw.Container(
-            margin: pw.EdgeInsets.only(bottom: 10),
-            decoration: pw.BoxDecoration(
-              borderRadius: 2,
-              color: PdfColor.fromHex('#009688'),
+    pdf.addPage(pw.MultiPage(
+        pageTheme: pageTheme,
+        build: (pw.Context context) {
+          pw.TextStyle st1 = pw.TextStyle(
+              fontSize: letraTextoTamanno(medidaReferenciaAlto) - 2,
+              color: PdfColor.fromHex('#ffffff'));
+          pw.TextStyle st2 = pw.TextStyle(
+              color: PdfColor.fromHex('#ffffff'),
+              fontSize: letraTextoTamanno(medidaReferenciaAlto),
+              fontWeight: pw.FontWeight.bold);
+          pw.TextStyle st3 = pw.TextStyle(
+              color: PdfColor.fromHex('#ffffff'),
+              fontSize: letraTextoTamanno(medidaReferenciaAlto),
+              fontWeight: pw.FontWeight.bold);
+
+          return <pw.Widget>[
+            pw.Container(
+              alignment: pw.Alignment.center,
+              padding: const pw.EdgeInsets.only(bottom: 10),
+              height: 50,
+              child: _logo != null ? pw.Image(_logo) : pw.PdfLogo(),
             ),
-            padding:
-                pw.EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 10),
-            alignment: pw.Alignment.centerLeft,
-            height: 150,
-            child: pw.DefaultTextStyle(
-                style: pw.TextStyle(
-                  color: PdfColor.fromHex('#FFFFFF'),
-                  fontSize: 12,
+            pw.Header(
+                level: 0,
+                child: pw.Center(
+                    child: pw.Text("TU ESTADO DE CUENTA",
+                        style: pw.TextStyle(
+                            color: PdfColor.fromHex('#23b674'),
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 20)))),
+            pw.Container(
+                margin: pw.EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
+                decoration: pw.BoxDecoration(
+                  borderRadius: 2,
+                  color: PdfColor.fromHex('#23b674'),
                 ),
-                child: pw.GridView(
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 4,
+                padding: pw.EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
+                alignment: pw.Alignment.centerLeft,
+                child: pw.Column(children: [
+                  pw.Row(children: [
+                    _contentTop(medidaReferenciaAlto, Colors.green[100],
+                        'No. Crédito', st1, creditDetail.nrocredio, st2),
+                    pw.VerticalDivider(color: PdfColor.fromHex('#ffffff')),
+                    _contentTop(medidaReferenciaAlto, Colors.green[100],
+                        'Fecha de inicio', st1, creditDetail.fechainicio, st2),
+                  ]),
+                  pw.Divider(
+                      height: sizedBox(medidaReferenciaAlto),
+                      color: PdfColor.fromHex('#ffffff')),
+                  pw.Row(children: [
+                    _contentTop(medidaReferenciaAlto, Colors.green[100],
+                        'Valor', st1, creditDetail.valor, st2),
+                    pw.VerticalDivider(color: PdfColor.fromHex('#ffffff')),
+                    _contentTop(medidaReferenciaAlto, Colors.green[100],
+                        'Pendiente', st1, creditDetail.pendiente, st3),
+                  ]),
+                  pw.Divider(
+                      height: sizedBox(medidaReferenciaAlto),
+                      color: PdfColor.fromHex('#ffffff')),
+                  pw.Padding(
+                    padding:
+                        pw.EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
+                    child: pw.Center(
+                      child: pw.Column(
+                        mainAxisAlignment: pw.MainAxisAlignment.center,
+                        children: [
+                          pw.Text('Descripción', style: st1),
+                          pw.Text(creditDetail.descripcion,
+                              style: pw.TextStyle(
+                                  fontSize:
+                                      letraTextoTamanno(medidaReferenciaAlto) +
+                                          2,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromHex('#ffffff'))),
+                        ],
+                      ),
+                    ),
+                  ),
+                  pw.Divider(
+                      height: sizedBox(medidaReferenciaAlto),
+                      color: PdfColor.fromHex('#ffffff')),
+                  pw.Row(
                     children: [
-                      _text('Nro Crédito'),
-                      _text('Fecha Inicio'),
-                      _text('Valor'),
-                      _text('Pendientes'),
-                      pw.Text(creditDetail.nrocredio),
-                      pw.Text(creditDetail.fechainicio),
-                      pw.Text(creditDetail.valor),
-                      pw.Text(creditDetail.pendiente),
-                      _text('Descripción'),
-                      pw.Text(''),
-                      pw.Text(creditDetail.descripcion),
-                      pw.Text(''),
-                      _text('Cuotas'),
-                      _text('Pendientes'),
-                      pw.Text(''),
-                      _text('Interés'),
-                      pw.Text(creditDetail.cuotas),
-                      pw.Text(creditDetail.cpendientes),
-                      pw.Text(''),
-                      pw.Text(creditDetail.interes),
-                    ]))),
-        pw.Header(
-            level: 0,
-            child: pw.Center(
-                child: pw.Text("Detalle de Pagos",
-                    style: pw.TextStyle(
-                        color: PdfColor.fromHex('#009688'),
-                        fontWeight: pw.FontWeight.bold,
-                        fontSize: 15)))),
-        pw.SizedBox(height: 10),
-        pw.Table.fromTextArray(
-            context: context,
-            data: salidas,
-            border: null,
-            cellAlignment: pw.Alignment.centerLeft,
-            headerDecoration: pw.BoxDecoration(
-              borderRadius: 2,
-              color: PdfColor.fromHex('#009688'),
-            ),
-            headerHeight: 25,
-            cellHeight: 40,
-            headerStyle: pw.TextStyle(
-              color: PdfColor.fromHex('#FFFFFF'),
-              fontSize: 8,
-              fontWeight: pw.FontWeight.bold,
-            ),
-            cellStyle:
-                pw.TextStyle(color: PdfColor.fromHex('#000000'), fontSize: 7),
-            rowDecoration: pw.BoxDecoration(
-                border: pw.BoxBorder(
-                    bottom: true,
-                    color: PdfColor.fromHex('#000000'),
-                    width: .5))),
-      ];
-    }));
+                      _contentTop(medidaReferenciaAlto, Colors.green[100],
+                          'Cuotas', st1, creditDetail.cuotas, st2),
+                      pw.VerticalDivider(color: PdfColor.fromHex('#ffffff')),
+                      _contentTop(medidaReferenciaAlto, Colors.green[100],
+                          'Pendientes', st1, creditDetail.cpendientes, st3),
+                      pw.VerticalDivider(color: PdfColor.fromHex('#ffffff')),
+                      _contentTop(medidaReferenciaAlto, Colors.green[100],
+                          'Interés', st1, creditDetail.interes, st3),
+                    ],
+                  ),
+                ])),
+            pw.SizedBox(height: sizedBox(medidaReferenciaAlto)),
+            pw.Header(
+                level: 0,
+                child: pw.Center(
+                    child: pw.Text("Detalle de Pagos",
+                        style: pw.TextStyle(
+                            color: PdfColor.fromHex('#23b674'),
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 15)))),
+            pw.Table.fromTextArray(
+                context: context,
+                data: salidas,
+                border: null,
+                cellAlignment: pw.Alignment.centerLeft,
+                headerDecoration: pw.BoxDecoration(
+                  borderRadius: 2,
+                  color: PdfColor.fromHex('#23b674'),
+                ),
+                headerHeight: 25,
+                cellHeight: 30,
+                headerStyle: pw.TextStyle(
+                  color: PdfColor.fromHex('#FFFFFF'),
+                  fontSize: 10,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+                cellStyle: pw.TextStyle(
+                    color: PdfColor.fromHex('#000000'), fontSize: 8),
+                rowDecoration: pw.BoxDecoration(
+                    border: pw.BoxBorder(
+                  bottom: true,
+                  color: PdfColor.fromHex('#000000'),
+                ))),
+          ];
+        }));
   }
 
-  Future _savePdf() async {
-    var now = DateTime.now();
-    //Get external storage directory
-    Directory directory = await getExternalStorageDirectory();
-    //Get directory path
-    String path = directory.path;
-    //Create an empty file to write PDF data
-    File file = File('$path/Output$now.pdf');
-    //Write PDF data
-    file.writeAsBytesSync(pdf.save());
-    //Open File
-    OpenFile.open('$path/Output$now.pdf');
+  Future _savePdf(context) async {
+    IndicadorProgreso.show(context);
+    Map<String, dynamic> result = {
+      'isSuccess': false,
+      'filePath': null,
+      'error': null,
+    };
+    try {
+      var now = DateTime.now();
+      String path;
+      //Get external storage directory
+      //Directory directory = await getExternalStorageDirectory();
+      //Get directory path
+      // String path = directory.path;
+      //Create an empty file to write PDF data
+      if (Platform.isAndroid) {
+        path = await ExtStorage.getExternalStoragePublicDirectory(
+            ExtStorage.DIRECTORY_DOWNLOADS);
+      } else {
+        Directory directory = await getDownloadsDirectory();
+        path = directory.path;
+      }
+      File file = File('$path/Credito${creditDetail.nrocredio}$now.pdf');
+      //Write PDF data
+      file.writeAsBytesSync(pdf.save());
+      //Open File
+      //OpenFile.open('$path/Output$now.pdf');
+      result['isSuccess'] = true;
+      result['filePath'] = '$path/Credito${creditDetail.nrocredio}$now.pdf';
+    } catch (e) {
+      result['error'] = e.toString();
+    } finally {
+      IndicadorProgreso.hide();
+      await _showNotification(result);
+    }
   }
 
   pdfDownloadDetail() async {
+    initState();
     PdfImage _logo;
     _logo = PdfImage.file(
       pdf.document,
-      bytes:
-          (await rootBundle.load('assets/img/icon.png')).buffer.asUint8List(),
+      bytes: (await rootBundle.load('assets/img/logoverde.png'))
+          .buffer
+          .asUint8List(),
     );
     _writeOnPdf(_logo);
-    await _savePdf();
+    await _savePdf(context);
   }
 }

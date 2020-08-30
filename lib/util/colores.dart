@@ -595,16 +595,13 @@ letraBarTamanno(medidaReferenciaAlto) {
   return medida;
 }
 
-tamannoIconoBack(context) {
-  var medidaReferencia;
-  medidaReferencia = MediaQuery.of(context).size.width;
-  double medida = MediaQuery.of(context).orientation == Orientation.portrait
-      ? medidaReferencia >= 1000
-          ? 150
-          : medidaReferencia >= 600 ? 140 : medidaReferencia >= 400 ? 130 : 110
-      : medidaReferencia >= 1000
-          ? 130
-          : medidaReferencia >= 600 ? 120 : medidaReferencia >= 400 ? 110 : 90;
+tamannoIconoBack(medidaReferenciaAlto) {
+  double medida = medidaReferenciaAlto >= 1000
+      ? 150
+      : medidaReferenciaAlto >= 600
+          ? 140
+          : medidaReferenciaAlto >= 400 ? 130 : 110;
+
   return medida;
 }
 
