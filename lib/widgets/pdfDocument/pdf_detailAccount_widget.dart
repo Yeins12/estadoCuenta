@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cuenta_virtual_v100/util/colores.dart';
-import 'package:cuenta_virtual_v100/widgets/alert/alert_dialogo.dart';
-import 'package:cuenta_virtual_v100/widgets/alert/indicador_progress.dart';
-import 'package:cuenta_virtual_v100/widgets/pdfDocument/pwfWidgetUtil.dart';
+import '../../util/colores.dart';
+import '../../widgets/alert/alert_dialogo.dart';
+import '../../widgets/alert/indicador_progress.dart';
+import '../../widgets/pdfDocument/pwfWidgetUtil.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,6 @@ class PdfDetailAccountWidget {
 
     if (obj['isSuccess']) {
       try {
-        print('abre');
         OpenFile.open(obj['filePath']);
       } catch (e) {
         mostrarDialogoWidget(

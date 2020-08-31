@@ -1,4 +1,3 @@
-//import '../pages/menu/prueba_page.dart';
 import '.././widgets/alert/alert_dialogo.dart';
 
 import '../service/menuService/credit_simulator_service.dart';
@@ -8,11 +7,7 @@ import 'menu_pages/credit_simulator_page.dart';
 
 import '../pages/Account/account_page.dart';
 import 'package:provider/provider.dart';
-
-import '../util/colores.dart';
-//import '../widgets/alert_dialogo.dart';
 import 'package:flutter/material.dart';
-//import 'Cuenta/consulta_cuenta.dart';
 
 class DrawerItem {
   String title;

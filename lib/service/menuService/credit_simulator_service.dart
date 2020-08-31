@@ -45,7 +45,6 @@ class CreditSimulatorService with ChangeNotifier {
     pendiente = valor;
     fecha ?? newFormat.format(DateTime.now());
     _val = formatter.format(cuota).toString() + ' al mes';
-    //print(cuota.toString());
     for (int i = 1; i <= plazo; i++) {
       DateTime fechaCuota = DateTime(fecha.year, fecha.month + i, fecha.day);
       intcuota = pendiente * intrs;

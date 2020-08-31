@@ -26,7 +26,6 @@ class CreditDetailService {
         var peticion = await http.post(ruta, body: {'usuario': provider.idusr});
         if (peticion.statusCode == 200) {
           var jsonResponse = convert.jsonDecode(peticion.body);
-          //print(jsonResponse['dtllecrdto']);
           creditDetailFinal =
               CreditDetailList.fromJson(jsonResponse['dtllecrdto']);
           return creditDetailFinal;

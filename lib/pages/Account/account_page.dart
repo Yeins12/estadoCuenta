@@ -256,7 +256,6 @@ class _AccountPageState extends State<AccountPage> {
                   size: tamannoIcono(medidaReferenciaAlto) - 2),
               onPressed: () async {
                 var status = await Permission.storage.status;
-                print(status.isGranted);
 
                 if (!status.isGranted) {
                   await Permission.storage.request();

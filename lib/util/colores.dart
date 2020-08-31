@@ -249,7 +249,6 @@ radius(medidaReferenciaAlto) {
 }
 
 topLoginIntro(medidaReferenciaAlto) {
-  print(medidaReferenciaAlto);
   double medida = medidaReferenciaAlto <= xpequenna
       ? medidaReferenciaAlto * 0.08
       : medidaReferenciaAlto < pequenna
@@ -308,7 +307,6 @@ iconLogin(medidaReferenciaAlto, medidaReferenciaAncho) {
                                           ? medidaReferenciaAlto * 0.33
                                           : 50;
 
-  //print(medida);
   return medida;
 }
 
@@ -336,14 +334,10 @@ paddingAll(medidaReferenciaAlto) {
                                           ? 15
                                           : 15;
 
-  /*MediaQuery.of(context).orientation==  Orientation.portrait? 
-                medidaReferencia>=1000?15:medidaReferencia>=600?7:medidaReferencia>=400?5:3:
-                medidaReferencia>=1000?25:medidaReferencia>=600?15:medidaReferencia>=400?5:3;*/
   return medida;
 }
 
 letraTextoTamanno(medidaReferenciaAlto) {
-  //print(medidaReferenciaAlto);
   double medida = medidaReferenciaAlto < xpequenna
       ? 12
       : //probado
@@ -402,9 +396,7 @@ tamannoIcono(medidaReferenciaAlto) {
                                       : medidaReferenciaAlto <= xxxxxxlarga
                                           ? 27
                                           : 27;
-  /*
-                medidaReferencia>=1000?30:medidaReferencia>=600?25:medidaReferencia>=400?20:18:
-                medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:13;*/
+
   return medida;
 }
 
@@ -432,16 +424,11 @@ sizedBox(medidaReferenciaAlto) {
                                       : medidaReferenciaAlto <= xxxxxxlarga
                                           ? 30
                                           : 35;
-  /* MediaQuery.of(context).orientation==  Orientation.portrait? 
-                medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:10:
-                medidaReferencia>=1000?20:medidaReferencia>=600?15:medidaReferencia>=400?10:5;*/
 
   return medida;
 }
 
 creditContent(medidaReferenciaAlto) {
-  //medidaReferenciaAlto = MediaQuery.of(context).size.height;
-
   double medida = medidaReferenciaAlto < xpequenna
       ? 5
       : //probado 320 hor
@@ -465,9 +452,7 @@ creditContent(medidaReferenciaAlto) {
                                       : medidaReferenciaAlto <= xxxxxxlarga
                                           ? medidaReferenciaAlto * .35
                                           : medidaReferenciaAlto * .35;
-  /* MediaQuery.of(context).orientation==  Orientation.portrait? 
-                medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:10:
-                medidaReferencia>=1000?20:medidaReferencia>=600?15:medidaReferencia>=400?10:5;*/
+
   return medida;
 }
 
@@ -495,15 +480,11 @@ topContent(medidaReferenciaAlto) {
                                       : medidaReferenciaAlto <= xxxxxxlarga
                                           ? medidaReferenciaAlto * .35
                                           : medidaReferenciaAlto * .25;
-  /* MediaQuery.of(context).orientation==  Orientation.portrait? 
-                medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:10:
-                medidaReferencia>=1000?20:medidaReferencia>=600?15:medidaReferencia>=400?10:5;*/
+
   return medida;
 }
 
 heightContent(medidaReferenciaAlto) {
-  //medidaReferenciaAlto = MediaQuery.of(context).size.height;
-
   double medida = medidaReferenciaAlto < xpequenna
       ? 60
       : //probado 320 hor
@@ -527,15 +508,11 @@ heightContent(medidaReferenciaAlto) {
                                       : medidaReferenciaAlto <= xxxxxxlarga
                                           ? medidaReferenciaAlto * .35
                                           : medidaReferenciaAlto * .35;
-  /* MediaQuery.of(context).orientation==  Orientation.portrait? 
-                medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:10:
-                medidaReferencia>=1000?20:medidaReferencia>=600?15:medidaReferencia>=400?10:5;*/
+
   return medida;
 }
 
 heightCard(medidaReferenciaAlto) {
-  //medidaReferenciaAlto = MediaQuery.of(context).size.height;
-
   double medida = medidaReferenciaAlto < xpequenna
       ? 80
       : //probado 320 hor
@@ -559,9 +536,7 @@ heightCard(medidaReferenciaAlto) {
                                       : medidaReferenciaAlto <= xxxxxxlarga
                                           ? 180
                                           : 80;
-  /* MediaQuery.of(context).orientation==  Orientation.portrait? 
-                medidaReferencia>=1000?25:medidaReferencia>=600?20:medidaReferencia>=400?15:10:
-                medidaReferencia>=1000?20:medidaReferencia>=600?15:medidaReferencia>=400?10:5;*/
+
   return medida;
 }
 
@@ -591,7 +566,6 @@ letraBarTamanno(medidaReferenciaAlto) {
                                           ? 30
                                           : 20;
 
-  /*medidaReferencia>=1000?24:medidaReferencia>=600?22:medidaReferencia>=400?20:18;*/
   return medida;
 }
 
@@ -632,11 +606,6 @@ tammannoIconoCargando(medidaReferenciaAlto) {
                                       medidaReferenciaAlto <= xxxxxxlarga
                                           ? 150
                                           : 90;
-/*
- //print(medidaReferencia);
- double medida= MediaQuery.of(context).orientation==  Orientation.portrait?
-                medidaReferencia>=1000?90:medidaReferencia>=600?100:medidaReferencia>=400?80:60:
-                medidaReferencia>=1000?90:medidaReferencia>=600?90:medidaReferencia>=400?80:70;
- */
+
   return medida;
 }
