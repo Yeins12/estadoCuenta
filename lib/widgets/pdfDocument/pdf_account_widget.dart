@@ -154,17 +154,20 @@ class PdfAccountWidget {
   _writeOnPdf(
     _logo,
   ) async {
+    double medida =
+        medidaReferenciaAlto >= xxxlarga ? 8 : sizedBox(medidaReferenciaAlto);
     pw.TextStyle st1 = pw.TextStyle(
-        fontSize: letraTextoTamanno(medidaReferenciaAlto) - 2,
+        fontSize: medidaReferenciaAlto >= xxxlarga
+            ? 10
+            : letraTextoTamanno(medidaReferenciaAlto) - 2,
         color: PdfColor.fromHex('#ffffff'));
     pw.TextStyle st2 = pw.TextStyle(
         color: PdfColor.fromHex('#ffffff'),
-        fontSize: letraTextoTamanno(medidaReferenciaAlto),
+        fontSize: medidaReferenciaAlto >= xxxlarga
+            ? 12
+            : letraTextoTamanno(medidaReferenciaAlto),
         fontWeight: pw.FontWeight.bold);
-    pw.TextStyle st3 = pw.TextStyle(
-        color: PdfColor.fromHex('#ffffff'),
-        fontSize: letraTextoTamanno(medidaReferenciaAlto),
-        fontWeight: pw.FontWeight.bold);
+    print(letraTextoTamanno(medidaReferenciaAlto));
 
     final pw.PageTheme pageTheme = await myPageTheme(PdfPageFormat.a4);
     for (var indice = 0; indice < creditList.creditsDetail.length; indice++) {
@@ -214,8 +217,7 @@ class PdfAccountWidget {
                           st2),
                     ]),
                     pw.Divider(
-                        height: sizedBox(medidaReferenciaAlto),
-                        color: PdfColor.fromHex('#ffffff')),
+                        height: medida, color: PdfColor.fromHex('#ffffff')),
                     pw.Row(children: [
                       _contentTop(
                           medidaReferenciaAlto,
@@ -231,14 +233,12 @@ class PdfAccountWidget {
                           'Pendiente',
                           st1,
                           creditList.creditsDetail[indice].pendiente,
-                          st3),
+                          st2),
                     ]),
                     pw.Divider(
-                        height: sizedBox(medidaReferenciaAlto),
-                        color: PdfColor.fromHex('#ffffff')),
+                        height: medida, color: PdfColor.fromHex('#ffffff')),
                     pw.Padding(
-                      padding:
-                          pw.EdgeInsets.all(paddingAll(medidaReferenciaAlto)),
+                      padding: pw.EdgeInsets.all(medida),
                       child: pw.Center(
                         child: pw.Column(
                           mainAxisAlignment: pw.MainAxisAlignment.center,
@@ -247,9 +247,11 @@ class PdfAccountWidget {
                             pw.Text(
                                 creditList.creditsDetail[indice].descripcion,
                                 style: pw.TextStyle(
-                                    fontSize: letraTextoTamanno(
-                                            medidaReferenciaAlto) +
-                                        2,
+                                    fontSize: medidaReferenciaAlto >= xxlarga
+                                        ? 14
+                                        : letraTextoTamanno(
+                                                medidaReferenciaAlto) +
+                                            2,
                                     fontWeight: pw.FontWeight.bold,
                                     color: PdfColor.fromHex('#ffffff'))),
                           ],
@@ -257,8 +259,7 @@ class PdfAccountWidget {
                       ),
                     ),
                     pw.Divider(
-                        height: sizedBox(medidaReferenciaAlto),
-                        color: PdfColor.fromHex('#ffffff')),
+                        height: medida, color: PdfColor.fromHex('#ffffff')),
                     pw.Row(
                       children: [
                         _contentTop(
@@ -275,7 +276,7 @@ class PdfAccountWidget {
                             'Pendientes',
                             st1,
                             creditList.creditsDetail[indice].cpendientes,
-                            st3),
+                            st2),
                         pw.VerticalDivider(color: PdfColor.fromHex('#ffffff')),
                         _contentTop(
                             medidaReferenciaAlto,
@@ -283,11 +284,14 @@ class PdfAccountWidget {
                             'Interés',
                             st1,
                             creditList.creditsDetail[indice].interes,
-                            st3),
+                            st2),
                       ],
                     ),
                   ])),
-              pw.SizedBox(height: sizedBox(medidaReferenciaAlto)),
+              pw.SizedBox(
+                  height: medidaReferenciaAlto >= xxlarga
+                      ? 8
+                      : sizedBox(medidaReferenciaAlto)),
               pw.Header(
                   level: 0,
                   child: pw.Center(
@@ -319,7 +323,7 @@ class PdfAccountWidget {
         path = await ExtStorage.getExternalStoragePublicDirectory(
             ExtStorage.DIRECTORY_DOWNLOADS);
       } else {
-        Directory directory = await getDownloadsDirectory();
+        Directory directory = await getApplicationDocumentsDirectory();
         path = directory.path;
       }
 

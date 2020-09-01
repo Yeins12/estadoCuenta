@@ -225,6 +225,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     medidaReferenciaAlto = MediaQuery.of(context).size.height;
+    print(medidaReferenciaAlto);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

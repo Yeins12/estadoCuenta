@@ -16,7 +16,8 @@ int xxlarga = 839;
 //xxxhdpi
 int xxxlarga = 959;
 int xxxxlarga = 1025;
-int xxxxxlarga = 1279;
+int xxxxxlarga =
+    1279; //1366 agregar padding a detalle separacion de lista, botón de calcular y amortización
 int xxxxxxlarga = 1439;
 int xxxxxxxlarga = 1599;
 int xxxxxxxxlarga = 1919;
