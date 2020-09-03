@@ -24,7 +24,8 @@ class NotificationPage extends StatelessWidget {
         ));
   }
 
-  Widget _buildLista() {
+  Widget _buildLista(context) {
+    double medidaReferenciaAlto = MediaQuery.of(context).size.height;
     return FutureBuilder(
         future: null,
         builder: (context, snapshot) {
@@ -39,9 +40,10 @@ class NotificationPage extends StatelessWidget {
               },
             );
           } else if (snapshot.hasError) {
-            return iconMsgBack(context, Icons.error, 'Ha ocurrido un error', 1);
+            return iconMsgBack(
+                medidaReferenciaAlto, Icons.error, 'Ha ocurrido un error', 1);
           }
-          return Center(child: iconCargando(context));
+          return Center(child: iconCargando(medidaReferenciaAlto));
         });
   }
 
@@ -49,7 +51,7 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _buildLista(),
+      body: _buildLista(context),
     );
   }
 }

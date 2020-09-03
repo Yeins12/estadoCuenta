@@ -329,7 +329,7 @@ paddingAll(medidaReferenciaAlto) {
                               : medidaReferenciaAlto <= xxxxlarga
                                   ? 12
                                   : medidaReferenciaAlto <= xxxxxlarga
-                                      ? 10
+                                      ? 13
                                       : //establecido
                                       medidaReferenciaAlto <= xxxxxxlarga
                                           ? 15
@@ -395,7 +395,7 @@ tamannoIcono(medidaReferenciaAlto) {
                                   : medidaReferenciaAlto <= xxxxxlarga
                                       ? 30
                                       : medidaReferenciaAlto <= xxxxxxlarga
-                                          ? 27
+                                          ? 32
                                           : 27;
 
   return medida;

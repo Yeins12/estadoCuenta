@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double medidaReferenciaAlto = MediaQuery.of(context).size.height;
-    double medidaReferenciaAncho = MediaQuery.of(context).size.height;
+    double medidaReferenciaAncho = MediaQuery.of(context).size.width;
     List<Widget> drawerOptions = [];
     for (var i = 0; i < widget.drawerItems.length; i++) {
       var d = widget.drawerItems[i];

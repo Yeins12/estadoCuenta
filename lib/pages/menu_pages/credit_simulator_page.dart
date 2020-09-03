@@ -125,9 +125,12 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
       },
       color: Colors.orange[200],
       textColor: Colors.white,
-      child: Text(
-        _clear ? 'Limpiar' : 'Calcular',
-        style: TextStyle(fontSize: letraTextoTamanno(medida)),
+      child: Padding(
+        padding: EdgeInsets.all(paddingAll(medida)),
+        child: Text(
+          _clear ? 'Limpiar' : 'Calcular',
+          style: TextStyle(fontSize: letraTextoTamanno(medida)),
+        ),
       ),
     );
   }
@@ -144,8 +147,11 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
             })),
             color: primaryColor,
             textColor: Colors.white,
-            child: Text('+  Ver amortización',
-                style: TextStyle(fontSize: letraTextoTamanno(medida))),
+            child: Padding(
+              padding: EdgeInsets.all(paddingAll(medida)),
+              child: Text('+  Ver amortización',
+                  style: TextStyle(fontSize: letraTextoTamanno(medida))),
+            ),
           ),
         ),
       ],
@@ -205,6 +211,7 @@ class _CreditSimulatorPageState extends State<CreditSimulatorPage> {
         textAlign: TextAlign.right,
         validator: (value) {
           if (value.isEmpty ||
+              (type == 2 && value.contains(',')) ||
               (type != 0 &&
                   double.parse(type == 1
                           ? value

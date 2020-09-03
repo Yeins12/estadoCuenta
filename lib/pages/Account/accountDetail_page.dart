@@ -199,75 +199,82 @@ class AccountDetailPage extends StatelessWidget {
       );
     }
 
-    return ExpansionTile(
-      backgroundColor: Colors.white,
-      leading: CircleAvatar(
-        radius: tamannoIcono(medidaReferenciaAlto) + 5,
-        backgroundColor: primaryColor,
-        child: Center(
-            child: Text(
-          creditDetail.detCuenta[index].cuota,
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: letraTextoTamanno(medidaReferenciaAlto)),
-        )),
-      ),
-      title: Text(
-        "Fecha: ${creditDetail.detCuenta[index].fecha}",
-        style: es1,
-      ),
-      subtitle: Text(
-        "Recibo: ${creditDetail.detCuenta[index].recibo}",
-        style: es1,
-      ),
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-              right: paddingAll(medidaReferenciaAlto),
-              left: paddingAll(medidaReferenciaAlto),
-              bottom: paddingAll(medidaReferenciaAlto)),
-          child: Card(
-            elevation: 10,
-            color: Colors.green[50],
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _listTile(
-                        'Valor Cuota: ', creditDetail.detCuenta[index].valor),
-                    _listTile(
-                        'Capital: ', creditDetail.detCuenta[index].capital),
-                  ],
-                ),
-                Divider(
-                  color: primaryColor,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _listTile(
-                        'Intereses: ', creditDetail.detCuenta[index].intereses),
-                    _listTile('Mora: ', creditDetail.detCuenta[index].mora),
-                  ],
-                ),
-                Divider(
-                  color: primaryColor,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _listTile('Seguro: ', creditDetail.detCuenta[index].seguro),
-                    _listTile(
-                        'Total Pago: ', creditDetail.detCuenta[index].total),
-                  ],
-                )
-              ],
+    return Padding(
+      padding: EdgeInsets.only(
+          bottom: medidaReferenciaAlto > xxxxlarga
+              ? paddingAll(medidaReferenciaAlto)
+              : 0),
+      child: ExpansionTile(
+        backgroundColor: Colors.white,
+        leading: CircleAvatar(
+          radius: tamannoIcono(medidaReferenciaAlto) + 5,
+          backgroundColor: primaryColor,
+          child: Center(
+              child: Text(
+            creditDetail.detCuenta[index].cuota,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: letraTextoTamanno(medidaReferenciaAlto)),
+          )),
+        ),
+        title: Text(
+          "Fecha: ${creditDetail.detCuenta[index].fecha}",
+          style: es1,
+        ),
+        subtitle: Text(
+          "Recibo: ${creditDetail.detCuenta[index].recibo}",
+          style: es1,
+        ),
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+                right: paddingAll(medidaReferenciaAlto),
+                left: paddingAll(medidaReferenciaAlto),
+                bottom: paddingAll(medidaReferenciaAlto)),
+            child: Card(
+              elevation: 10,
+              color: Colors.green[50],
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _listTile(
+                          'Valor Cuota: ', creditDetail.detCuenta[index].valor),
+                      _listTile(
+                          'Capital: ', creditDetail.detCuenta[index].capital),
+                    ],
+                  ),
+                  Divider(
+                    color: primaryColor,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _listTile('Intereses: ',
+                          creditDetail.detCuenta[index].intereses),
+                      _listTile('Mora: ', creditDetail.detCuenta[index].mora),
+                    ],
+                  ),
+                  Divider(
+                    color: primaryColor,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _listTile(
+                          'Seguro: ', creditDetail.detCuenta[index].seguro),
+                      _listTile(
+                          'Total Pago: ', creditDetail.detCuenta[index].total),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -293,7 +300,11 @@ class AccountDetailPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              icon: Icon(Icons.file_download, color: Colors.white),
+              icon: Icon(
+                Icons.file_download,
+                color: Colors.white,
+                size: tamannoIcono(medidaReferenciaAlto),
+              ),
               onPressed: () => PdfDetailAccountWidget(
                       context: context,
                       creditDetail: creditDetail,

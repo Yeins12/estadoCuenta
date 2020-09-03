@@ -56,16 +56,6 @@ class AmortizationPage extends StatelessWidget {
                         medidaReferenciaAncho,
                         snapshot.data.amortizationList,
                         1);
-                    /*
-                    return ListView.builder(
-                      primary: true,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.amortizationList.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return content(context, snapshot, 0);
-                      },
-                    );*/
                   } else if (snapshot.hasError) {
                     return iconMsgBack(medidaReferenciaAlto, Icons.error,
                         'Ha ocurrido un error', 1);
