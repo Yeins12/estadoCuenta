@@ -2,7 +2,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import '../../util/colores.dart';
 import '../../util/delated_animation.dart';
 import 'package:flutter/material.dart';
-
+import  'package:url_launcher/url_launcher.dart';
 import 'login_page.dart';
 
 class LoginIntroPage extends StatefulWidget {
@@ -111,7 +111,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
                 alignment: FractionalOffset.bottomCenter,
                 child: DelayedAnimation(
                   child: InkWell(
-                    onTap: () => {},
+                    onTap: () => _launchURL(),
                     child: Text(
                       "Visita nuestra página web",
                       style: TextStyle(
@@ -128,7 +128,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
       ),
     );
   }
-/*
+
   _launchURL() async {
     const url = 'http://estadodecuenta.conres.com.co/';
     if (await canLaunch(url)) {
@@ -136,7 +136,7 @@ class _LoginIntroPageState extends State<LoginIntroPage>
     } else {
       throw 'Could not launch $url';
     }
-  }*/
+  }
 
   Widget get _animatedButtonUI => GestureDetector(
         onTap: () {

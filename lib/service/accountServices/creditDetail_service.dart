@@ -30,13 +30,9 @@ class CreditDetailService {
               CreditDetailList.fromJson(jsonResponse['dtllecrdto']);
           return creditDetailFinal;
         }
-      } on TimeoutException {
-        mostrarDialogoWidget(0, context, 'Aviso!',
-            'Error inesperado, inténtelo  nuevamente', 1, medidaReferenciaAlto);
-      } on Error {
-        mostrarDialogoWidget(0, context, 'Aviso!',
-            'Error inesperado, inténtelo  nuevamente', 1, medidaReferenciaAlto);
-      }
+      } catch (e){
+        print(e);
+      } 
     }
 
     return creditDetailFinal;
